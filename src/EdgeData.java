@@ -10,11 +10,13 @@ public class EdgeData implements api.EdgeData{
      * gray symbolizes we already visit this node
      * and black symbolizes we've done with this node, as a default all nodes are Initialized to white.
      */
-    public EdgeData(int src, int dest, double weight, String info)
+    public EdgeData(int src, int dest, double weight)
     {
         this.src = src;
         this.dest = dest;
         this.tag = WHITE;
+        this.weight = weight;
+        //this.info = info;
     }
 
     @Override

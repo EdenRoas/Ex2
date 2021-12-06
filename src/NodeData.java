@@ -49,12 +49,12 @@ public class NodeData implements api.NodeData{
 
     @Override
     public String getInfo() {
-        return null;
+        return this.info;
     }
 
     @Override
     public void setInfo(String s) {
-
+        this.info = s;
     }
 
     @Override
