@@ -13,12 +13,12 @@ public class NodeData implements api.NodeData{
      * gray symbolizes we already visit this node
      * and black symbolizes we've done with this node, as a default all nodes are Initialized to white.
      */
-    public NodeData(int key, GeoLocation location, double weight, String info)
+    public NodeData(int key, GeoLocation location, double weight, String info, int tag)
     {
         this.key = key;
         this.weight = weight;
         this.location = location;
-        this.tag = WHITE;
+        this.tag = tag;
         this.info = info;
     }
 

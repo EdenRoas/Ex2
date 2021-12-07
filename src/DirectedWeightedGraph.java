@@ -2,15 +2,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class DirectedWeightedGraph implements api.DirectedWeightedGraph {
-    private HashMap<Integer,NodeData> NodeMap;
+    private HashMap<Integer, NodeData> NodeMap;
     private int MC = 0;
     private HashMap<String, EdgeData> EdgeMap;
 
 
+    public DirectedWeightedGraph() {
+        this.EdgeMap = new HashMap<>();
+        this.NodeMap = new HashMap<>();
+    }
+
     @Override
     public NodeData getNode(int key) {
-        if(NodeMap.containsKey(key))
-        {
+        if (NodeMap.containsKey(key)) {
             return NodeMap.get(key);
         }
         return null;
@@ -18,9 +22,8 @@ public class DirectedWeightedGraph implements api.DirectedWeightedGraph {
 
     @Override
     public EdgeData getEdge(int src, int dest) {
-        String kodkod = src +", "+dest;
-        if(EdgeMap.containsKey(kodkod))
-        {
+        String kodkod = src + ", " + dest;
+        if (EdgeMap.containsKey(kodkod)) {
             return EdgeMap.get(kodkod);
         }
         return null;
@@ -28,20 +31,19 @@ public class DirectedWeightedGraph implements api.DirectedWeightedGraph {
 
     @Override
     public void addNode(NodeData n) {
-        if(n!=null)
-        {
-            NodeMap.put(n.getKey(),n);
+        if (n != null) {
+            NodeMap.put(n.getKey(), n);
             this.MC++;
         }
     }
 
     @Override
     public void connect(int src, int dest, double w) {
-        if( src == dest || !this.NodeMap.containsKey(src) || !this.NodeMap.containsKey(dest) || getEdge(src, dest) != null )
+        if (src == dest || !this.NodeMap.containsKey(src) || !this.NodeMap.containsKey(dest) || getEdge(src, dest) != null)
             return;
         EdgeData edge = new EdgeData(src, dest, w);
-        String kodkod = src +", "+dest;
-        EdgeMap.put(kodkod,edge);
+        String kodkod = src + ", " + dest;
+        EdgeMap.put(kodkod, edge);
         this.MC++;
     }
 
@@ -54,8 +56,8 @@ public class DirectedWeightedGraph implements api.DirectedWeightedGraph {
 //        {
 //            throw RuntimeException;
 //        }
-
-//    }
+        return null;
+    }
 
     @Override
     public Iterator<EdgeData> edgeIter() {
@@ -63,23 +65,24 @@ public class DirectedWeightedGraph implements api.DirectedWeightedGraph {
     }
 
     @Override
-    public Iterator<EdgeData> edgeIter(int node_id) {
+    public Iterator<EdgeData> edgeIter(int node_id){
         return this.EdgeMap.values().iterator();
     }
 
     @Override
-    public NodeData removeNode(int key) {
-        if(!this.NodeMap.containsKey(key))
+    public NodeData removeNode(int key){
+        if (!this.NodeMap.containsKey(key))
             return null;
         //if(! this.NodeMap.values().isEmpty()){
         for (NodeData n : this.NodeMap.values()) {
-            if(n.getKey() == key)
+            if (n.getKey() == key)
                 continue;
-            String kod1 = key +", "+n.getKey();;
-            String kod2 = n.getKey() +", "+key;
-            if(this.EdgeMap.containsKey(kod1))
+            String kod1 = key + ", " + n.getKey();
+            ;
+            String kod2 = n.getKey() + ", " + key;
+            if (this.EdgeMap.containsKey(kod1))
                 EdgeMap.remove(kod1);
-            if(this.EdgeMap.containsKey(kod2))
+            if (this.EdgeMap.containsKey(kod2))
                 EdgeMap.remove(kod2);
         }
         this.MC++;
@@ -87,14 +90,11 @@ public class DirectedWeightedGraph implements api.DirectedWeightedGraph {
     }
 
     @Override
-    public EdgeData removeEdge(int src, int dest) {
-        String kodkod = src +", "+dest;
-
-        if(!EdgeMap.containsKey(kodkod))
+    public EdgeData removeEdge(int src, int dest){
+        String kodkod = src + ", " + dest;
+        if (!EdgeMap.containsKey(kodkod))
             return null;
-
         this.MC++;
-
         return this.EdgeMap.remove(kodkod);
     }
 
@@ -112,4 +112,15 @@ public class DirectedWeightedGraph implements api.DirectedWeightedGraph {
     public int getMC() {
         return this.MC;
     }
+
+    public HashMap<Integer, NodeData> getNodeMap()
+    {
+        return this.NodeMap;
+    }
+
+    public HashMap<String, EdgeData> getEdgeMap()
+    {
+        return this.EdgeMap;
+    }
 }
+
