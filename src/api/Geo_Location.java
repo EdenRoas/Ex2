@@ -1,6 +1,6 @@
 package api;
 
-public class Geo_Location implements api.GeoLocation {
+public class Geo_Location implements GeoLocation {
     double x, y, z;
 
     public Geo_Location()
@@ -40,7 +40,7 @@ public class Geo_Location implements api.GeoLocation {
     }
 
     @Override
-    public double distance(api.GeoLocation g) {
+    public double distance(GeoLocation g) {
         double dx = this.x - g.x();
         double dy = this.y - g.y();
         double dz = this.z - g.z();

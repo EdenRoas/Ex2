@@ -18,7 +18,16 @@ public class Edge_Data implements api.EdgeData{
         this.dest = dest;
         this.tag = WHITE;
         this.weight = weight;
-        //this.info = info;
+        this.info = "src: " + this.src + ", w: " + this.weight + ", dest: " + this.dest;
+    }
+
+    public Edge_Data(int src, int dest, double weight, String info, int tag)
+    {
+        this.src = src;
+        this.dest = dest;
+        this.tag = tag;
+        this.weight = weight;
+        this.info = info;
     }
 
     @Override

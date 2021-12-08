@@ -1,12 +1,17 @@
 package api;
 import api.GeoLocation;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Node_Data implements NodeData{
-    private int key, tag;
+    private final int key;
+    private int tag;
     private GeoLocation location;
     private double weight;
     private String info;
     public static final int WHITE = 0, GRAY = 1, BLACK = 2;
+    private ArrayList<Node_Data> list_of_neighbors;
 
     /**
      * for the Node tag: white = 0,   gray = 1,   black = 2,
@@ -21,6 +26,17 @@ public class Node_Data implements NodeData{
         this.location = location;
         this.tag = tag;
         this.info = info;
+        this.list_of_neighbors = new ArrayList<>();
+    }
+
+    public ArrayList<Node_Data> getNeighborsList()
+    {
+        return this.list_of_neighbors;
+    }
+
+    public void updateNeighbors(Node_Data neighbor)
+    {
+        this.list_of_neighbors.add(neighbor);
     }
 
     @Override
@@ -65,6 +81,6 @@ public class Node_Data implements NodeData{
 
     @Override
     public void setTag(int t) {
-        this.tag = tag;
+        this.tag = t;
     }
 }

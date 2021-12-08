@@ -3,15 +3,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import com.google.gson.JsonParser;
-//import org.json.JSONArray;
-//import org.json.JSONObject;
-//import org.json.JSONObject;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
@@ -21,8 +16,13 @@ import java.io.*;
 public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraphAlgorithms {
 
     Directed_Weighted_Graph graph;
-    double[][] dist = new double[this.graph.nodeSize()][this.graph.nodeSize()];
-    NodeData[][] next = new Node_Data[this.graph.nodeSize()][this.graph.nodeSize()];
+    double[][] distAllNodes = new double[this.graph.nodeSize()][this.graph.nodeSize()];
+    //    NodeData[][] next = new Node_Data[this.graph.nodeSize()][this.graph.nodeSize()];
+    Node_Data[] prev = new Node_Data[this.graph.nodeSize()];
+
+    public Directed_Weighted_Graph_Algorithms() {
+        this.graph = new Directed_Weighted_Graph();
+    }
 
     public Directed_Weighted_Graph_Algorithms(DirectedWeightedGraph g) {
         init(g);
@@ -41,9 +41,9 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
     @Override
     public DirectedWeightedGraph copy() {
         DirectedWeightedGraph copy_graph = new Directed_Weighted_Graph();
-        Directed_Weighted_Graph g = (Directed_Weighted_Graph) this.graph;
-        HashMap<Integer, NodeData> new_node_map = g.getNodeMap();
-        HashMap<String, EdgeData> new_edge_map = g.getEdgeMap();
+        //Directed_Weighted_Graph g = this.graph;
+        HashMap<Integer, NodeData> new_node_map = this.graph.getNodeMap();
+        HashMap<String, EdgeData> new_edge_map = this.graph.getEdgeMap();
         for (NodeData n : new_node_map.values()) {
             NodeData temp = new Node_Data(n.getKey(), n.getLocation(), n.getWeight(), n.getInfo(), n.getTag());
             copy_graph.addNode(temp);
@@ -59,64 +59,118 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
         return this.graph.edgeSize() == (this.graph.nodeSize() * (this.graph.nodeSize() - 1));
     }
 
-    private void FWA_with_PR() {
-        for (int i = 0; i < this.dist.length; i++) {
-            for (int j = 0; j < this.dist.length; j++) {
+    /**
+     * we use Dijkstra algorithm to find the shortest path between
+     * the center and every other node, and between a current node and every other node.
+     * the source of the algorithm we use is taken from wikipedia: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+     */
+    private double DijkstraAlgo(NodeData src, NodeData dest) {
+        HashMap<Integer, Node_Data> setNodes = new HashMap<>();
+        Node_Data tmpNode;
+        double[] dist = new double[this.graph.nodeSize()];
+        for (NodeData n : this.graph.getNodeMap().values()) {
+            dist[n.getKey()] = Integer.MAX_VALUE;
+            prev[n.getKey()] = null;
+            setNodes.put(n.getKey(), (Node_Data) n);
+        }
+        dist[src.getKey()] = 0;
+        while (!setNodes.isEmpty()) {
+            int minDist = minimumDist(dist);
+            tmpNode = setNodes.get(minDist);
+            setNodes.remove(tmpNode);
+            for (Node_Data neighbor : tmpNode.getNeighborsList()) {
+                String kodkod = tmpNode.getKey() + ", " + neighbor.getKey();
+                double alt = dist[tmpNode.getKey()] + this.graph.getEdgeMap().get(kodkod).getWeight();
+                if (alt < dist[neighbor.getKey()]) {
+                    dist[neighbor.getKey()] = alt;
+                    prev[neighbor.getKey()] = tmpNode;
+                }
+            }
+        }
+        distAllNodes[src.getKey()][dest.getKey()] = dist[dest.getKey()];
+        return dist[dest.getKey()];
+    }
+
+    private int minimumDist(double[] dist) {
+        int minDist = Integer.MAX_VALUE;
+        for (int i = 0; i < dist.length; i++) {
+            if (dist[i] < minDist)
+                minDist = i;
+        }
+        return minDist;
+    }
+
+    @Override
+    public double shortestPathDist(int src, int dest) {
+//        this.FWA_with_PR();
+//        return dist[src][dest];
+        return this.DijkstraAlgo(this.graph.getNode(src), this.graph.getNode(dest));
+    }
+
+    @Override
+    public List<NodeData> shortestPath(int src, int dest) {
+//        this.FWA_with_PR();
+//        int tmp_dest = dest;
+//        NodeData tmp_node = this.graph.getNode(src);
+//        List<NodeData> path = new ArrayList<>();
+//        if(next[src][dest] == null)
+//            return null;
+//        path.add(tmp_node);
+//        while(tmp_node.getKey() != tmp_dest)
+//        {
+//            tmp_node = next[tmp_node.getKey()][tmp_dest];
+//            path.add(tmp_node);
+//        }
+        List<NodeData> path = new ArrayList<>();
+        path.add(this.graph.getNode(src));
+        NodeData tmpNode = this.prev[src];
+        while (tmpNode.getKey() != dest) {
+            path.add(tmpNode);
+            tmpNode = this.prev[tmpNode.getKey()];
+        }
+        return path;
+    }
+
+    private void FWA() {
+        for (int i = 0; i < this.distAllNodes.length; i++) {
+            for (int j = 0; j < this.distAllNodes.length; j++) {
                 if (i == j)
-                    this.dist[i][j] = 0;
+                    this.distAllNodes[i][j] = 0;
                 else {
                     EdgeData tmp = this.graph.getEdge(i, j);
                     if (tmp != null)
-                        dist[i][j] = tmp.getWeight();
+                        distAllNodes[i][j] = tmp.getWeight();
                     else
-                        dist[i][j] = Integer.MAX_VALUE;
+                        distAllNodes[i][j] = Integer.MAX_VALUE;
                 }
-                next[i][j] = this.graph.getNode(i);
             }
         }
         for (int k = 0; k < this.graph.nodeSize(); k++) {
             for (int i = 0; i < this.graph.nodeSize(); i++) {
                 for (int j = 0; j < this.graph.nodeSize(); j++) {
-                    if (this.dist[i][j] > this.dist[i][k] + this.dist[k][j]) {
-                        this.dist[i][j] = this.dist[i][k] + this.dist[k][j];
-                        next[i][j] = next[i][k];
+                    if (this.distAllNodes[i][j] > this.distAllNodes[i][k] + this.distAllNodes[k][j]) {
+                        this.distAllNodes[i][j] = this.distAllNodes[i][k] + this.distAllNodes[k][j];
                     }
                 }
             }
         }
-
     }
 
-    @Override
-    public double shortestPathDist(int src, int dest) {
-        this.FWA_with_PR();
-        return dist[src][dest];
-    }
-
-    @Override
-    public List<NodeData> shortestPath(int src, int dest) {
-        this.FWA_with_PR();
-        int tmp_dest = dest;
-        NodeData tmp_node = this.graph.getNode(src);
-        List<NodeData> path = new ArrayList<>();
-        if (next[src][dest] == null)
-            return null;
-        path.add(tmp_node);
-        while (tmp_node.getKey() != tmp_dest) {
-            tmp_node = next[tmp_node.getKey()][tmp_dest];
-            path.add(tmp_node);
-        }
-        return path;
-    }
-
+    /**
+     * for this function we used Floyd–Warshall algorithm, the source of the algorithm is from
+     * wikipedia : https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm
+     *
+     * @return
+     */
     @Override
     public NodeData center() {
+        FWA();
         double[] eccentricity = new double[this.graph.nodeSize()];
         double rad = Integer.MAX_VALUE;
         ArrayList<Integer> centers_list = new ArrayList<>();
         for (int i = 0; i < this.graph.nodeSize(); i++) {
             for (int j = 0; j < this.graph.nodeSize(); j++) {
-                eccentricity[i] = Math.max(eccentricity[i], dist[i][j]);
+                eccentricity[i] = Math.max(eccentricity[i], distAllNodes[i][j]);
             }
         }
         for (int i = 0; i < this.graph.nodeSize(); i++) {
@@ -135,32 +189,63 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
                 min = centers_array[i];
         }
         return this.graph.getNode(min);
+//        return this.graph.getCenter();
     }
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
-        return null;
+        List<NodeData> tmpCities = new ArrayList<>();
+        List<NodeData> citiesPath = new ArrayList<>();
+        for (int i = 0; i < cities.size(); i++) {
+            tmpCities.add(cities.get(i));
+        }
+        int index = 0;
+        NodeData currNode = tmpCities.get(index);
+        while (!tmpCities.isEmpty()) {
+            citiesPath.add(currNode);
+            index = minWeightIndex(tmpCities, currNode);
+            tmpCities.remove(currNode);
+            currNode = tmpCities.get(index);
+        }
+        return citiesPath;
+    }
+
+    private int minWeightIndex(List<NodeData> tmpCities, NodeData currNode) {
+        double minWeight = Double.MAX_VALUE;
+        EdgeData tmpEdge;
+        int minIndex = 0;
+        for (NodeData n : tmpCities) {
+            if (n.equals(currNode))
+                continue;
+            tmpEdge = this.graph.getEdge(currNode.getKey(), n.getKey());
+            if (tmpEdge == null)
+                continue;
+            if (tmpEdge.getWeight() < minWeight) {
+                minWeight = tmpEdge.getWeight();
+                minIndex = n.getKey();
+            }
+        }
+        return minIndex;
     }
 
     @Override
     public boolean save(String file) {
         try {
             JSONObject file_g = new JSONObject();
-            file_g.put("Edges" ,this.graph.getEdgeMap());
-            file_g.put("Nodes" ,this.graph.getNodeMap());
+            file_g.put("Edges", this.graph.getEdgeMap());
+            file_g.put("Nodes", this.graph.getNodeMap());
             FileWriter writer = new FileWriter(file);
             writer.write(file_g.toJSONString());
             writer.flush();
-                return true;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
+    }
 
     @Override
     public boolean load(String file) {
-
         try {
             Directed_Weighted_Graph dg = new Directed_Weighted_Graph();
             JsonParser jsonpars = new JsonParser();
@@ -191,7 +276,4 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
             return false;
         }
     }
-
-
 }
-
