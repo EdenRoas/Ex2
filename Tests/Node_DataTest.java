@@ -1,4 +1,4 @@
-package Tests.Tests;
+package Tests;
 
 import api.*;
 import org.junit.jupiter.api.Test;
@@ -12,6 +12,7 @@ class Node_DataTest {
     Node_Data n2 = new Node_Data(1, loc2, 4.9, "35.20319591121872,32.10318254621849,0.0", Node_Data.GRAY);
     GeoLocation loc3 = new Geo_Location(35.19381366747377, 32.102419275630254, 0.0);//x = 35.19381366747377, y = 32.102419275630254, z = 0.0
     Node_Data n3 = new Node_Data(16, loc3, 0.6, "35.19381366747377,32.102419275630254,0.0", Node_Data.BLACK);
+
 
     @Test
     void getKey() {

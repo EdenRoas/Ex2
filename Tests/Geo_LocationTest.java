@@ -1,4 +1,4 @@
-package Tests.Tests;
+package Tests;
 
 import api.GeoLocation;
 import api.Geo_Location;

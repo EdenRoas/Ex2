@@ -1,4 +1,4 @@
-package Tests.Tests;
+package Tests;
 
 import api.Edge_Data;
 import org.junit.jupiter.api.Test;
@@ -10,8 +10,8 @@ class Edge_DataTest {
     int src1 = 0, src2 = 15, src3 = 8, dest1 = 4, dest2 = 15, dest3 = 11,
             ta1 = Edge_Data.WHITE, ta2 = Edge_Data.BLACK, ta3 = Edge_Data.GRAY;
     double w1 = 0.6, w2 = 9.7, w3 = 0.3;
-    String inf2 = "src: 0, w: 0.6, dest: 4",
-            inf1 = "src: 0, w: 0.6, dest: 4",
+    String  inf1 = "src: 0, w: 0.6, dest: 4",
+            inf2 = "src: 0, w: 0.6, dest: 4",
             inf3 = "src: 15, w: 9.7, dest: 15",
             inf4 = "src: 8, w: 0.3, dest: 11";
     Edge_Data e1 = new Edge_Data(src1, dest1, w1);
