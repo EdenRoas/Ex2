@@ -1,16 +1,20 @@
 #  Ex2
- Writing an algorithm and creating a link graph
 
 ## Overview:
-the data structure that the assignment is built on is an directional weighted graph. for info about this type of graph you can visit: [https://en.wikipedia.org/wiki/Directed_graph]. the process of building this data structrue was to implement and program the interfaces sent by Boaz-Ben-Moshe. here are the classes of this data structure:
+Writing an algorithm and creating a link graph.
+the data structure that the assignment is built on is an directional weighted graph. 
+for info about this type of graph you can visit: [https://en.wikipedia.org/wiki/Directed_graph].
+the process of building this data structrue was to implement and program the interfaces sent by Boaz-Ben-Moshe.
+here are the classes of this data structure:
+
 | Class      | Description |
-| --------- | -----:|
-| Node_Data  | represents a vertex on the grap |
-| Edge_Data   |   represent an edge which connects two different node|
+| :------------| :------------|
+| Node_Data  | represents a vertices on the grap |
+| Edge_Data   |   represent an edge which connects two different vertices|
 | Geo_Location      |    represents a 3 coordinates point|
-| Directed_Weighted_Graph      |    represents an graph based on the nodes and edges |
+| Directed_Weighted_Graph      |    represents an graph based on the vertices and edges |
 | Directed_Weighted_Graph_Algorithms      |    a data structure based on the DirectedWeightedGraph structrue that offers variuos algorithms | 
-  
+
 ## Node_Data
 + Represents a vertice on the graph.
    + **Key:** specific key associated with this node.
@@ -45,15 +49,18 @@ the data structure that the assignment is built on is an directional weighted gr
 + The class that contains the whole algorithms that can be used on a graph.
      + **graph:** the graph that the algorithms being used on. 
 
-#URL ??
+# putting UML here ??
 
 ## The algorithems we used:
 in order to calculate the shortest path between two given edges on the graph, we used dijkstra's algorithm.
 for info about this specific algorithm please visit: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm.
 in order to calculate the center in the graph, we used Floyd–Warshall algorithm.
 for info about this algorithem please visit: https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm.
--this assignment  also contains various methods to serialize and deserialize the data structure to a JSON formated txt file.
+-in this assignment we also asked to build a GUI were we could load graphs using a JSON file.
+
+## putting pictuer of the GUI here
 
 
-
-
+### Collaborators
+  + **HADAR BITAN**
+  + **EDEN ROAS**
