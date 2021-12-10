@@ -18,11 +18,10 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
     Directed_Weighted_Graph graph;
     double[][] distAllNodes;
     Node_Data[] prev;
+    double[] dist;
 
     public Directed_Weighted_Graph_Algorithms() {
         this.graph = new Directed_Weighted_Graph();
-        this.distAllNodes = new double[this.graph.nodeSize()][this.graph.nodeSize()];
-        this.prev = new Node_Data[this.graph.nodeSize()];
     }
 
     public Directed_Weighted_Graph_Algorithms(DirectedWeightedGraph g) {
@@ -65,63 +64,117 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
      * the center and every other node, and between a current node and every other node.
      * the source of the algorithm we use is taken from wikipedia: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
      */
-    private double DijkstraAlgo(NodeData src, NodeData dest) {
+    private void DijkstraAlgo(double[][] graphs, int src) {
+        this.prev = new Node_Data[this.graph.nodeSize()];
         HashMap<Integer, Node_Data> setNodes = new HashMap<>();
-        Node_Data tmpNode;
-        double[] dist = new double[this.graph.nodeSize()];
-        for (NodeData n : this.graph.getNodeMap().values()) {
-            dist[n.getKey()] = Integer.MAX_VALUE;
-            prev[n.getKey()] = null;
-            setNodes.put(n.getKey(), (Node_Data) n);
+        Boolean sptSet[] = new Boolean[this.graph.nodeSize()];
+        dist = new double[this.graph.nodeSize()];
+        for(int i = 0; i < this.graph.nodeSize(); i++)
+        {
+            dist[i] = Integer.MAX_VALUE;
+            sptSet[i] = false;
+            prev[i] = null;
         }
-        dist[src.getKey()] = 0;
-        while (!setNodes.isEmpty()) {
-            int minDist = minimumDist(dist);
-            tmpNode = setNodes.get(minDist);
-            setNodes.remove(tmpNode);
-            for (Node_Data neighbor : tmpNode.getNeighborsList()) {
-                String kodkod = tmpNode.getKey() + ", " + neighbor.getKey();
-                double alt = dist[tmpNode.getKey()] + this.graph.getEdgeMap().get(kodkod).getWeight();
-                if (alt < dist[neighbor.getKey()]) {
-                    dist[neighbor.getKey()] = alt;
-                    prev[neighbor.getKey()] = tmpNode;
+        dist[src] = 0;
+        for (int count = 0; count < this.graph.nodeSize() - 1; count++) {
+            int u = (int)(minimumDist(dist, sptSet));
+            sptSet[u] = true;
+            for (int v = 0; v < this.graph.nodeSize(); v++)
+            {
+                if (!sptSet[v] && graphs[u][v] != 0 &&
+                        dist[u] != Integer.MAX_VALUE && dist[u] + graphs[u][v] < dist[v]) {
+                    dist[v] = dist[u] + graphs[u][v];
+                    prev[v] = (Node_Data) this.graph.getNode(v);
                 }
             }
         }
-        distAllNodes[src.getKey()][dest.getKey()] = dist[dest.getKey()];
-        return dist[dest.getKey()];
+
+//        for (NodeData n : this.graph.getNodeMap().values()) {
+//            dist[n.getKey()] = Integer.MAX_VALUE;
+//            prev[n.getKey()] = null;
+//            setNodes.put(n.getKey(), (Node_Data) n);
+//        }
+//        dist[src.getKey()] = 0;
+//        while (!setNodes.isEmpty()) {
+//            int minDist = minimumDist(dist);
+//            tmpNode = setNodes.get(minDist);
+//            setNodes.remove(tmpNode);
+//            for (Node_Data neighbor : tmpNode.getNeighborsList()) {
+//                String kodkod = tmpNode.getKey() + ", " + neighbor.getKey();
+//                double alt = dist[tmpNode.getKey()] + this.graph.getEdgeMap().get(kodkod).getWeight();
+//                if (alt < dist[neighbor.getKey()]) {
+//                    dist[neighbor.getKey()] = alt;
+//                    prev[neighbor.getKey()] = tmpNode;
+//                }
+//            }
+//        }
+//        distAllNodes[src.getKey()][dest.getKey()] = dist[dest.getKey()];
     }
 
-    private int minimumDist(double[] dist) {
-        int minDist = Integer.MAX_VALUE;
-        for (int i = 0; i < dist.length; i++) {
-            if (dist[i] < minDist)
-                minDist = i;
-        }
-        return minDist;
+    private double minimumDist(double dist[], Boolean sptSet[])
+    {
+        // Initialize min value
+        double min = Integer.MAX_VALUE, min_index = -1;
+
+        for (int v = 0; v < this.graph.nodeSize(); v++)
+            if (sptSet[v] == false && dist[v] <= min) {
+                min = dist[v];
+                min_index = v;
+            }
+
+        return min_index;
     }
+
+//    private int minimumDist(double[] dist) {
+//        int minDist = Integer.MAX_VALUE;
+//        for (int i = 0; i < dist.length; i++) {
+//            if (dist[i] < minDist)
+//                minDist = i;
+//        }
+//        return minDist;
+//    }
 
     @Override
     public double shortestPathDist(int src, int dest) {
-//        this.FWA_with_PR();
-//        return dist[src][dest];
-        return this.DijkstraAlgo(this.graph.getNode(src), this.graph.getNode(dest));
+        double[][] weights = new double[this.graph.nodeSize()][this.graph.nodeSize()];
+        for (int i=0; i<weights.length; i++)
+        {
+            for (int j=0; j<weights.length; j++)
+            {
+                EdgeData tmpEdge = this.graph.getEdge(i, j);
+                if (tmpEdge == null)
+                {
+                    weights[i][j] = 0;
+                }
+                else
+                {
+                    weights[i][j] = tmpEdge.getWeight();
+                }
+            }
+        }
+        DijkstraAlgo(weights, src);
+        return this.dist[dest];
     }
 
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
-//        this.FWA_with_PR();
-//        int tmp_dest = dest;
-//        NodeData tmp_node = this.graph.getNode(src);
-//        List<NodeData> path = new ArrayList<>();
-//        if(next[src][dest] == null)
-//            return null;
-//        path.add(tmp_node);
-//        while(tmp_node.getKey() != tmp_dest)
-//        {
-//            tmp_node = next[tmp_node.getKey()][tmp_dest];
-//            path.add(tmp_node);
-//        }
+        double[][] weights = new double[this.graph.nodeSize()][this.graph.nodeSize()];
+        for (int i=0; i<weights.length; i++)
+        {
+            for (int j=0; j<weights.length; j++)
+            {
+                EdgeData tmpEdge = this.graph.getEdge(i, j);
+                if (tmpEdge == null)
+                {
+                    weights[i][j] = 0;
+                }
+                else
+                {
+                    weights[i][j] = tmpEdge.getWeight();
+                }
+            }
+        }
+        DijkstraAlgo(weights, src);
         List<NodeData> path = new ArrayList<>();
         path.add(this.graph.getNode(src));
         NodeData tmpNode = this.prev[src];
@@ -133,6 +186,7 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
     }
 
     private void FWA() {
+        this.distAllNodes = new double[this.graph.nodeSize()][this.graph.nodeSize()];
         for (int i = 0; i < this.distAllNodes.length; i++) {
             for (int j = 0; j < this.distAllNodes.length; j++) {
                 if (i == j)

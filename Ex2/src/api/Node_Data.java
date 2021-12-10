@@ -19,6 +19,16 @@ public class Node_Data implements NodeData{
      * gray symbolizes we already visit this node
      * and black symbolizes we've done with this node, as a default all nodes are Initialized to white.
      */
+    public Node_Data(int key, GeoLocation location, double weight) {
+        this.key = key;
+        this.weight = weight;
+        this.location = location;
+        this.tag = WHITE;
+        this.info = "pos : " + location.x() + "," + location.y() + "," +
+                location.z() + ",\nid : " + this.getKey();
+        this.list_of_neighbors = new ArrayList<>();
+    }
+
     public Node_Data(int key, GeoLocation location, double weight, String info, int tag)
     {
         this.key = key;
