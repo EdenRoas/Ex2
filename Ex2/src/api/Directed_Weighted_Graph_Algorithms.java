@@ -1,8 +1,5 @@
 package api;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -30,6 +27,17 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
 
     @Override
     public void init(DirectedWeightedGraph g) {
+//        Directed_Weighted_Graph copy_graph = new Directed_Weighted_Graph();
+//        //Directed_Weighted_Graph g = this.graph;
+//        HashMap<Integer, NodeData> new_node_map = this.graph.getNodeMap();
+//        HashMap<String, EdgeData> new_edge_map = this.graph.getEdgeMap();
+//        for (NodeData n : new_node_map.values()) {
+//            NodeData temp = new Node_Data(n.getKey(), n.getLocation(), n.getWeight(), n.getInfo(), n.getTag());
+//            this.graph.addNode(temp);
+//        }
+//        for (EdgeData edge : new_edge_map.values()) {
+//            this.graph.connect(edge.getSrc(), edge.getDest(), edge.getWeight());
+//        }
         this.graph = (Directed_Weighted_Graph) g;
     }
 
@@ -64,7 +72,7 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
      * the center and every other node, and between a current node and every other node.
      * the source of the algorithm we use is taken from wikipedia: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
      */
-    private void DijkstraAlgo(double[][] graphs, int src) {
+    private void DijkstraAlgo(double[][] weights, int src) {
         this.prev = new Node_Data[this.graph.nodeSize()];
         HashMap<Integer, Node_Data> setNodes = new HashMap<>();
         Boolean sptSet[] = new Boolean[this.graph.nodeSize()];
@@ -81,14 +89,13 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
             sptSet[u] = true;
             for (int v = 0; v < this.graph.nodeSize(); v++)
             {
-                if (!sptSet[v] && graphs[u][v] != 0 &&
-                        dist[u] != Integer.MAX_VALUE && dist[u] + graphs[u][v] < dist[v]) {
-                    dist[v] = dist[u] + graphs[u][v];
-                    prev[v] = (Node_Data) this.graph.getNode(v);
+                if (!sptSet[v] && weights[u][v] != 0 &&
+                        dist[u] != Integer.MAX_VALUE && dist[u] + weights[u][v] < dist[v]) {
+                    dist[v] = dist[u] + weights[u][v];
+                    prev[v] = (Node_Data) this.graph.getNode(u);
                 }
             }
         }
-
 //        for (NodeData n : this.graph.getNodeMap().values()) {
 //            dist[n.getKey()] = Integer.MAX_VALUE;
 //            prev[n.getKey()] = null;
@@ -121,7 +128,6 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
                 min = dist[v];
                 min_index = v;
             }
-
         return min_index;
     }
 
@@ -153,11 +159,15 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
             }
         }
         DijkstraAlgo(weights, src);
+        if(dist[dest] == Integer.MAX_VALUE || dist[dest] == 0)
+            return -1;
         return this.dist[dest];
     }
 
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
+        if(src == dest || this.shortestPathDist(src, dest) == -1)
+            return null;
         double[][] weights = new double[this.graph.nodeSize()][this.graph.nodeSize()];
         for (int i=0; i<weights.length; i++)
         {
@@ -176,12 +186,14 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
         }
         DijkstraAlgo(weights, src);
         List<NodeData> path = new ArrayList<>();
-        path.add(this.graph.getNode(src));
-        NodeData tmpNode = this.prev[src];
-        while (tmpNode.getKey() != dest) {
+        path.add(this.graph.getNode(dest));
+        NodeData tmpNode = this.prev[dest];
+        while (tmpNode.getKey() != src) {
             path.add(tmpNode);
             tmpNode = this.prev[tmpNode.getKey()];
         }
+        path.add(this.graph.getNode(src));
+        Collections.reverse(path);
         return path;
     }
 
@@ -255,12 +267,12 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
             tmpCities.add(cities.get(i));
         }
         int index = 0;
-        NodeData currNode = tmpCities.get(index);
+        NodeData currNode;
         while (!tmpCities.isEmpty()) {
+            currNode = tmpCities.get(index);
             citiesPath.add(currNode);
             index = minWeightIndex(tmpCities, currNode);
             tmpCities.remove(currNode);
-            currNode = tmpCities.get(index);
         }
         return citiesPath;
     }
@@ -268,16 +280,20 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
     private int minWeightIndex(List<NodeData> tmpCities, NodeData currNode) {
         double minWeight = Double.MAX_VALUE;
         EdgeData tmpEdge;
-        int minIndex = 0;
+        int minIndex = 0, index = 0;
         for (NodeData n : tmpCities) {
-            if (n.equals(currNode))
+            if (n.equals(currNode)) {
+                index++;
                 continue;
+            }
             tmpEdge = this.graph.getEdge(currNode.getKey(), n.getKey());
-            if (tmpEdge == null)
+            if (tmpEdge == null) {
+                index++;
                 continue;
+            }
             if (tmpEdge.getWeight() < minWeight) {
                 minWeight = tmpEdge.getWeight();
-                minIndex = n.getKey();
+                minIndex = index++;
             }
         }
         return minIndex;
