@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import javax.swing.*;
 
@@ -11,9 +12,14 @@ import static java.lang.Integer.parseInt;
 
 public class GUI_runner{
 
-    DirectedWeightedGraph graph;
+    Directed_Weighted_Graph graph;
     JFrame frame;
     JPanel graph_panel;
+    private int kRADIUS = 5;
+    private int mWin_h = 500;
+    private int mWin_w = 500;
+    private Image mBuffer_image;
+    private Graphics mBuffer_graphics;
 //    frame.setSize(500, 500);
 //    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //
@@ -23,7 +29,7 @@ public class GUI_runner{
 //    graph_panel.setLayout(null);
     public GUI_runner(DirectedWeightedGraphAlgorithms algGraph, String json_file)
     {
-        this.graph = algGraph.getGraph();
+        this.graph = (Directed_Weighted_Graph) algGraph.getGraph();
         this.frame = new JFrame("Graph");
         this.frame.setSize(500, 500);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -438,6 +444,50 @@ public class GUI_runner{
 
             }
         });
+        JMenuItem tsp = new JMenuItem("tsp");
+        tsp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                JPanel graph_panel = new JPanel();
+//                graph_panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
+//                frame.add(graph_panel);
+//                graph_panel.setLayout(null);
+                graph_panel.removeAll();
+
+                JLabel addLable = new JLabel("Check Path Between Two Vertices");
+                addLable.setBounds(100, 10, 100, 45);
+                graph_panel.add(addLable);
+
+                JLabel srcLable = new JLabel("src:");
+                srcLable.setBounds(30, 40, 100, 45);
+                graph_panel.add(srcLable);
+
+                JTextField srcText = new JTextField();
+                srcText.setBounds(80, 50, 165, 25);
+                graph_panel.add(srcText);
+
+                JLabel destLable = new JLabel("dest:");
+                destLable.setBounds(30, 70, 100, 45);
+                graph_panel.add(destLable);
+
+                JTextField destText = new JTextField();
+                destText.setBounds(80, 80, 165, 25);
+                graph_panel.add(destText);
+
+                JButton checkButton = new JButton("Check");
+                checkButton.setBounds(30, 140,80,25);
+                checkButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JLabel pathLable = new JLabel(String.valueOf(algGraph.shortestPathDist(parseInt(srcText.getText()), parseInt(destText.getText()))));
+                        pathLable.setBounds(200, 200, 100, 45);
+                        graph_panel.add(pathLable);
+                    }
+                });
+                graph_panel.add(checkButton);
+                frame.setVisible(true);
+            }
+        });
 
         Graph.add(Charge);
         Graph.add(Save);
@@ -452,6 +502,7 @@ public class GUI_runner{
         Algorithm.add(shortestPathDist);
         Algorithm.add(shortestPath);
         Algorithm.add(isConnected);
+        Algorithm.add(tsp);
 
         this.frame.setVisible(true);
     }
@@ -466,25 +517,51 @@ public class GUI_runner{
 
         public void paint(Graphics graphics)
         {
-            graph_panel.setSize(35, 35);
-            //graphics.drawOval(50, 60,10,20);
-            Iterator<NodeData> nodeIter = graph.nodeIter();
-            NodeData tmpNode;
-            System.out.println(nodeIter.toString());
-            while(nodeIter.hasNext())
-            {
-                tmpNode = nodeIter.next();
-                int x = (int) tmpNode.getLocation().x(), y = (int) tmpNode.getLocation().y();
-                graphics.drawOval(x, y,10,10);
-            }
+            mBuffer_image = createImage(mWin_w,mWin_h );
+            mBuffer_graphics = mBuffer_image.getGraphics();
+
+            // Draw on the new "canvas"
+            paintComponents(mBuffer_graphics);
+
+            // "Switch" the old "canvas" for the new one
+            graphics.drawImage(mBuffer_image, 0, 0, this);
         }
+
+        @Override
+         public void paintComponents(Graphics graphics)
+         {
+             graph_panel.setSize(10, 10);
+             //graphics.drawOval(50, 60,10,20);
+//             Iterator<NodeData> nodeIter = graph.nodeIter();
+//             NodeData tmpNode;
+//             while(nodeIter.hasNext())
+//             {
+//                 tmpNode = nodeIter.next();
+//                 System.out.println(tmpNode);
+//                 int x = (int) tmpNode.getLocation().x(), y = (int) tmpNode.getLocation().y();
+//                 graphics.setColor(Color.BLUE);
+//                 graphics.fillOval(x, y,2 * kRADIUS, 2 * kRADIUS);
+//             }
+             HashMap<Integer, NodeData> node_map = graph.getNodeMap();
+             NodeData prev = null;
+             for (NodeData n : node_map.values()) {
+                 int x = (int) n.getLocation().x(), y = (int) n.getLocation().y();
+                 graphics.setColor(Color.BLUE);
+                 graphics.fillOval(x, y,5, 5);
+//                 if (prev != null) {
+//                     graphics.setColor(Color.RED);
+//                     graphics.drawLine(x, y, (int) prev.getLocation().x()-1, (int) prev.getLocation().y()-1);
+//                     double dist = prev.getLocation().distance(n.getLocation());
+//                     graphics.drawString(String.format("%.2f", dist),
+//                             (int) ((x + prev.getLocation().x()) / 2),
+//                             (int) ((y + prev.getLocation().y()) / 2));
+      //           }
+//                 prev = n;
+//                 System.out.println(n);
+             }
+         }
     }
 }
-
-
-
-
-
 
 //    public static void main(String[] args) {
 //        DirectedWeightedGraph graph = new Directed_Weighted_Graph();
