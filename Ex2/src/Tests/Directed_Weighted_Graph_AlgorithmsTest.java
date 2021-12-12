@@ -3,6 +3,7 @@ import api.*;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,12 +24,13 @@ class Directed_Weighted_Graph_AlgorithmsTest {
     String inf4 = "23.2457754356,30.0,0.0";
     String inf5 = "22.5688766787,32.55553,0.0";
     int ta1 = Node_Data.WHITE, ta2 = Node_Data.GRAY, ta3 = Node_Data.BLACK;
-    int src1 = 0, src2 = 1, src3 = 2, dest1 = 3, dest2 = 4, dest3 = 15;
+    int src1 = 0, src2 = 1, src3 = 2, src4 = 5, dest1 = 3, dest2 = 4, dest3 = 15;
     NodeData n1 = new Node_Data(src1, loc1, w1,inf1, ta1);
     NodeData n2 = new Node_Data(src2,loc2, w2, inf2, ta2);
     NodeData n3 = new Node_Data(src3,loc3, w3, inf3, ta3);
     NodeData n4 = new Node_Data(dest1, loc4, w4,inf4, ta1);
     NodeData n5 = new Node_Data(dest2, loc5, w5,inf5, ta2);
+    NodeData n6 = new Node_Data(src4, loc5, w5,inf5, ta2);
     double we1=4 , we2=8, we3=11, we4=12 ,we5=22 , we6=31, we7=12, we8=3, we9=10 ,we10=0.8;
     Edge_Data e1= new Edge_Data(n1.getKey(),n2.getKey(),we1);
     Edge_Data e2= new Edge_Data(n2.getKey(),n3.getKey(),we2);
@@ -110,6 +112,7 @@ class Directed_Weighted_Graph_AlgorithmsTest {
         grpah.addNode(n3);
         grpah.addNode(n4);
         grpah.addNode(n5);
+        grpah.addNode(n6);
         grpah.connect(n1.getKey(), n2.getKey(), we1);
         grpah.connect(n2.getKey(), n1.getKey(), we5);
         grpah.connect(n2.getKey(), n3.getKey(), we2);
@@ -122,21 +125,21 @@ class Directed_Weighted_Graph_AlgorithmsTest {
         grpah.connect(n5.getKey(), n1.getKey(), we10);
         assertEquals(12, ga1.shortestPathDist(n1.getKey(), n3.getKey()));
         assertEquals(10, ga1.shortestPathDist(n1.getKey(), n5.getKey()));
-        assertEquals(0, ga1.shortestPathDist(n1.getKey(), n1.getKey()));
+        assertEquals(-1, ga1.shortestPathDist(n1.getKey(), n1.getKey()));
         assertEquals(19, ga1.shortestPathDist(n2.getKey(), n4.getKey()));
         assertEquals(12.8, ga1.shortestPathDist(n4.getKey(), n1.getKey()));
         assertTrue(23 == ga1.shortestPathDist(n3.getKey(), n5.getKey()));
+        assertEquals(-1, ga1.shortestPathDist(n3.getKey(), n6.getKey()));
     }
-
 
     @Test
     void shortestPath() {
-        gl.init(grpah);
         grpah.addNode(n1);
         grpah.addNode(n2);
         grpah.addNode(n3);
         grpah.addNode(n4);
         grpah.addNode(n5);
+        grpah.addNode(n6);
         grpah.connect(n1.getKey(), n2.getKey(), we1);
         grpah.connect(n2.getKey(), n1.getKey(), we5);
         grpah.connect(n2.getKey(), n3.getKey(), we2);
@@ -147,10 +150,23 @@ class Directed_Weighted_Graph_AlgorithmsTest {
         grpah.connect(n5.getKey(), n4.getKey(), we8);
         grpah.connect(n1.getKey(), n5.getKey(), we9);
         grpah.connect(n5.getKey(), n1.getKey(), we10);
-        List<NodeData> path=gl.shortestPath(n1.getKey(),n1.getKey());
-        assertEquals(0,path.size());
-
-
+        gl.init(grpah);
+        List<NodeData> path = gl.shortestPath(n1.getKey(),n1.getKey());
+        assertEquals(null, path);
+        path = gl.shortestPath(n1.getKey(),n3.getKey());
+        List<NodeData> checkPath = new ArrayList<>();
+        checkPath.add(n1);
+        checkPath.add(n2);
+        checkPath.add(n3);
+        assertEquals(checkPath, path);
+        path = gl.shortestPath(n4.getKey(),n1.getKey());
+        checkPath = new ArrayList<>();
+        checkPath.add(n4);
+        checkPath.add(n5);
+        checkPath.add(n1);
+        assertEquals(checkPath, path);
+        path = gl.shortestPath(n1.getKey(),n6.getKey());
+        assertEquals(null, path);
     }
 
     @Test
@@ -173,14 +189,55 @@ class Directed_Weighted_Graph_AlgorithmsTest {
         grpah.connect(n1.getKey(), n5.getKey(), we9);
         grpah.connect(n5.getKey(), n1.getKey(), we10);
         assertEquals(n5, ga1.center());
-
-
-
     }
 
     @Test
     void tsp() {
 
+        GeoLocation p0 = new Geo_Location(0,0,0);
+        GeoLocation p1 = new Geo_Location(1,2,0);
+        GeoLocation p2 = new Geo_Location(1,5,0);
+        GeoLocation p3 = new Geo_Location(4,4,0);
+        GeoLocation p4 = new Geo_Location(4,3,0);
+        GeoLocation p5 = new Geo_Location(4,0,0);
+        GeoLocation p6 = new Geo_Location(9,2,0);
+        NodeData n0 = new Node_Data(0, p0, we1);
+        NodeData n1 = new Node_Data(1, p1, we2);
+        NodeData n2 = new Node_Data(2, p2, we3);
+        NodeData n3 = new Node_Data(3, p3, we4);
+        NodeData n4 = new Node_Data(4, p4, we5);
+        NodeData n5 = new Node_Data(5, p5, we6);
+        NodeData n6 = new Node_Data(6, p6, we7);
+        grpah.addNode(n0);
+        grpah.addNode(n1);
+        grpah.addNode(n2);
+        grpah.addNode(n3);
+        grpah.addNode(n4);
+        grpah.addNode(n5);
+        grpah.addNode(n6);
+        grpah.connect(n0.getKey(),n1.getKey(),1);
+        grpah.connect(n1.getKey(),n2.getKey(),1);
+        grpah.connect(n2.getKey(),n1.getKey(),2);
+        grpah.connect(n2.getKey(),n3.getKey(),2);
+        grpah.connect(n3.getKey(),n4.getKey(),1);
+        grpah.connect(n4.getKey(),n3.getKey(),1);
+        grpah.connect(n2.getKey(),n4.getKey(),4);
+        grpah.connect(n4.getKey(),n2.getKey(),2);
+        grpah.connect(n4.getKey(),n6.getKey(),5);
+        grpah.connect(n0.getKey(),n6.getKey(),15);
+        grpah.connect(n5.getKey(),n6.getKey(),12);
+        gl.init(grpah);
+        List<NodeData> subGraph1 = new ArrayList<NodeData>();
+        subGraph1.add(n3);
+        subGraph1.add(n4);
+        subGraph1.add(n2);
+        ArrayList<NodeData> subGraphTSP1 = (ArrayList<NodeData>) gl.tsp(subGraph1);
+        double pathW = 0.0;
+        for(int i=0; i<=subGraphTSP1.size()-2; i++){
+            pathW += gl.shortestPathDist(subGraphTSP1.get(i).getKey(),subGraphTSP1.get(i+1).getKey());
+        }
+        assertTrue(pathW >= 3 && pathW <= 8);
+        assertFalse(pathW <= 2);
     }
 
     @Test
