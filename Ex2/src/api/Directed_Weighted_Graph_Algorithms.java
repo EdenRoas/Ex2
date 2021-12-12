@@ -6,6 +6,8 @@ import java.io.IOException;
 import com.google.gson.JsonParser;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 import java.io.*;
@@ -301,48 +303,80 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
 
     @Override
     public boolean save(String file) {
+        JSONArray edges = new JSONArray();
+        JSONObject edgeO = new JSONObject();
+        for(EdgeData edge : this.graph.getEdgeMap().values())
+        {
+            edgeO.put("src", edge.getSrc());
+            edgeO.put("w", edge.getWeight());
+            edgeO.put("dest", edge.getDest());
+            edges.add(edgeO);
+        }
+        JSONArray nodes = new JSONArray();
+        JSONObject nodeO = new JSONObject();
+        for(NodeData node : this.graph.getNodeMap().values())
+        {
+            String str = node.getLocation().x() + "," + node.getLocation().y() + "," + node.getLocation().z();
+            nodeO.put("pos", str);
+            nodeO.put("id", node.getKey());
+            nodes.add(nodeO);
+        }
+        JSONObject graphObj = new JSONObject();
+        graphObj.put("Edges", edges);
+        graphObj.put("Nodes", nodes);
         try {
-            JSONObject file_g = new JSONObject();
-            file_g.put("Edges", this.graph.getEdgeMap());
-            file_g.put("Nodes", this.graph.getNodeMap());
             FileWriter writer = new FileWriter(file);
-            writer.write(file_g.toJSONString());
+            writer.write(graphObj.toJSONString());
             writer.flush();
             return true;
-        } catch (IOException e) {
+        }
+        catch(IOException e)
+        {
             e.printStackTrace();
             return false;
         }
+//        try {
+//            JSONObject file_g = new JSONObject();
+//            file_g.put("Edges", this.graph.getEdgeMap());
+//            file_g.put("Nodes", this.graph.getNodeMap());
+//            FileWriter writer = new FileWriter(file);
+//            writer.write(file_g.toJSONString());
+//            writer.flush();
+//            return true;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
     }
 
     @Override
     public boolean load(String file) {
         try {
             Directed_Weighted_Graph dg = new Directed_Weighted_Graph();
-            JsonParser jsonpars = new JsonParser();
-            Object ob = jsonpars.parse(new FileReader(file));
+            JSONParser jsonparser = new JSONParser();
+            Object ob = jsonparser.parse(new FileReader(file));
             JSONObject file_g = (JSONObject) ob;
-            JSONArray ed = (JSONArray) file_g.get("Edges");
-            for (Object o : ed) {
-                HashMap<String, Object> edgedata = (HashMap<String, Object>) o;
-                int src = (int) (long) edgedata.get("src");
-                int dest = (int) (long) edgedata.get("dest");
-                double w = (double) edgedata.get("w");
-                dg.connect(src, dest, w);
-            }
             JSONArray nod = (JSONArray) file_g.get("Nodes");
             for (Object oi : nod) {
                 HashMap<String, Object> nodedata = (HashMap<String, Object>) oi;
                 String pos = (String) nodedata.get("pos");
                 String[] spliti = pos.split(",");
-                Geo_Location g = new Geo_Location(Double.parseDouble(spliti[0]), Double.parseDouble(spliti[1]), Double.parseDouble(spliti[2]));
+                GeoLocation g = new Geo_Location(Double.parseDouble(spliti[0]), Double.parseDouble(spliti[1]), Double.parseDouble(spliti[2]));
                 int id = (int) (long) nodedata.get("id");
-                Node_Data nv = new Node_Data(id, g, 0, "", 0);
+                NodeData nv = new Node_Data(id, g, 0, "", 0);
                 dg.addNode(nv);
+            }
+            JSONArray ed = (JSONArray) file_g.get("Edges");
+            for (Object o : ed) {
+                HashMap<String, Object> edgedata = (HashMap<String, Object>) o;
+                int src = (int) (long) edgedata.get("src");
+                double w = (double) edgedata.get("w");
+                int dest = (int) (long) edgedata.get("dest");
+                dg.connect(src, dest, w);
             }
             this.init(dg);
             return true;
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
             return false;
         }

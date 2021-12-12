@@ -193,7 +193,6 @@ class Directed_Weighted_Graph_AlgorithmsTest {
 
     @Test
     void tsp() {
-
         GeoLocation p0 = new Geo_Location(0,0,0);
         GeoLocation p1 = new Geo_Location(1,2,0);
         GeoLocation p2 = new Geo_Location(1,5,0);
@@ -201,56 +200,77 @@ class Directed_Weighted_Graph_AlgorithmsTest {
         GeoLocation p4 = new Geo_Location(4,3,0);
         GeoLocation p5 = new Geo_Location(4,0,0);
         GeoLocation p6 = new Geo_Location(9,2,0);
-        NodeData n0 = new Node_Data(0, p0, we1);
-        NodeData n1 = new Node_Data(1, p1, we2);
-        NodeData n2 = new Node_Data(2, p2, we3);
-        NodeData n3 = new Node_Data(3, p3, we4);
-        NodeData n4 = new Node_Data(4, p4, we5);
-        NodeData n5 = new Node_Data(5, p5, we6);
-        NodeData n6 = new Node_Data(6, p6, we7);
-        grpah.addNode(n0);
-        grpah.addNode(n1);
-        grpah.addNode(n2);
-        grpah.addNode(n3);
-        grpah.addNode(n4);
-        grpah.addNode(n5);
-        grpah.addNode(n6);
-        grpah.connect(n0.getKey(),n1.getKey(),1);
-        grpah.connect(n1.getKey(),n2.getKey(),1);
-        grpah.connect(n2.getKey(),n1.getKey(),2);
-        grpah.connect(n2.getKey(),n3.getKey(),2);
-        grpah.connect(n3.getKey(),n4.getKey(),1);
-        grpah.connect(n4.getKey(),n3.getKey(),1);
-        grpah.connect(n2.getKey(),n4.getKey(),4);
-        grpah.connect(n4.getKey(),n2.getKey(),2);
-        grpah.connect(n4.getKey(),n6.getKey(),5);
-        grpah.connect(n0.getKey(),n6.getKey(),15);
-        grpah.connect(n5.getKey(),n6.getKey(),12);
+        NodeData n7 = new Node_Data(0, p0, we1);
+        NodeData n8 = new Node_Data(1, p1, we2);
+        NodeData n9 = new Node_Data(2, p2, we3);
+        NodeData n10 = new Node_Data(3, p3, we4);
+        NodeData n11 = new Node_Data(4, p4, we5);
+        NodeData n12 = new Node_Data(5, p5, we6);
+        NodeData n13 = new Node_Data(6, p6, we7);
+        grpah.addNode(n7);
+        grpah.addNode(n8);
+        grpah.addNode(n9);
+        grpah.addNode(n10);
+        grpah.addNode(n11);
+        grpah.addNode(n12);
+        grpah.addNode(n13);
+        grpah.connect(n7.getKey(),n8.getKey(),6);
+        grpah.connect(n8.getKey(),n9.getKey(),13);
+        grpah.connect(n9.getKey(),n8.getKey(),23);
+        grpah.connect(n9.getKey(),n10.getKey(),2);
+        grpah.connect(n10.getKey(),n11.getKey(),1);
+        grpah.connect(n11.getKey(),n10.getKey(),1);
+        grpah.connect(n9.getKey(),n11.getKey(),4);
+        grpah.connect(n11.getKey(),n9.getKey(),2);
+        grpah.connect(n11.getKey(),n13.getKey(),8);
+        grpah.connect(n7.getKey(),n13.getKey(),11);
+        grpah.connect(n12.getKey(),n13.getKey(),21);
         gl.init(grpah);
-        List<NodeData> subGraph1 = new ArrayList<NodeData>();
-        subGraph1.add(n3);
-        subGraph1.add(n4);
-        subGraph1.add(n2);
-        ArrayList<NodeData> subGraphTSP1 = (ArrayList<NodeData>) gl.tsp(subGraph1);
-        double pathW = 0.0;
-        for(int i=0; i<=subGraphTSP1.size()-2; i++){
-            pathW += gl.shortestPathDist(subGraphTSP1.get(i).getKey(),subGraphTSP1.get(i+1).getKey());
+        List<NodeData> tsp1 = new ArrayList<NodeData>();
+        tsp1.add(n10);
+        tsp1.add(n11);
+        tsp1.add(n9);
+        ArrayList<NodeData> anstsp1 = (ArrayList<NodeData>) gl.tsp(tsp1);
+        double pathtsp = 0.0;
+        for(int i=0; i<=anstsp1.size()-2; i++){
+            pathtsp += gl.shortestPathDist(anstsp1.get(i).getKey(),anstsp1.get(i+1).getKey());
         }
-        assertTrue(pathW >= 3 && pathW <= 8);
-        assertFalse(pathW <= 2);
+        assertTrue(pathtsp >= 3 && pathtsp <= 7);
+        assertFalse(pathtsp < 3);
     }
 
     @Test
     void save() {
+        DirectedWeightedGraph fG = new Directed_Weighted_Graph();
+        DirectedWeightedGraph tG = new Directed_Weighted_Graph();
+        DirectedWeightedGraphAlgorithms dwa = new Directed_Weighted_Graph_Algorithms();
+        DirectedWeightedGraphAlgorithms tdwa = new Directed_Weighted_Graph_Algorithms();
+        dwa.init(fG);
+        tdwa.init(tG);
+        dwa.load("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1.json");
+        //DirectedWeightedGraph loadedGraphBeforeSave = dwa.copy();
+        dwa.save("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1Copy.json");
+        tdwa.load("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1Copy.json");
 
+//        //DirectedWeightedGraph loadedGraphAfterSave = tdwa.copy();
+//        Iterator<EdgeData> graphIter = dwa.getGraph().edgeIter();
+//        Iterator<EdgeData> g1Iter = tdwa.getGraph().edgeIter();
+//        Iterator<NodeData> graph_Iter = dwa.getGraph().nodeIter();
+//        Iterator<NodeData> g1_Iter = tdwa.getGraph().nodeIter();
+//        while (g1Iter.hasNext() || g1_Iter.hasNext())
+//        {
+//            assertSame(g1Iter.next(), graphIter.next());
+//            assertSame(g1_Iter.next(), graph_Iter.next());
+//
+//        }
+//        assertEquals(loadedGraphAfterSave, loadedGraphBeforeSave);
     }
 
     @Test
     void load() {
         gl.init(grpah);
-       // assertEquals(false,gl.load("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\test.json"));
         assertEquals(true,gl.load("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1.json"));
-       // System.out.println(gl.getGraph().toString());
+        //assertEquals(false,gl.load("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1.json"));
 
     }
 }

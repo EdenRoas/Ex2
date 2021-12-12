@@ -272,7 +272,7 @@ class Directed_Weighted_GraphTest {
         g3.connect(n5.getKey(), n1.getKey(), we5);
         assertTrue(5  == g3.nodeSize());
         assertTrue(3  == g2.nodeSize());
-        assertFalse(3  == g3.edgeSize());
+        assertTrue(5  == g3.edgeSize());
 
 
     }
