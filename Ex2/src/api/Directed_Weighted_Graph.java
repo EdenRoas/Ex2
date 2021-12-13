@@ -47,21 +47,9 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
 
     @Override
     public void connect(int src, int dest, double w) {
-//        if (src == dest || !this.NodeMap.containsKey(src) || !this.NodeMap.containsKey(dest) || getEdge(src, dest) != null) {
-//            System.out.println("can't connect vertices!");
-//            return;
-        // }
-        if (src == dest) {
-            System.out.println("can't connect vertices!-OP1");
-        }
-        if (!this.NodeMap.containsKey(src)) {
-            System.out.println("can't connect vertices!-OP2");
-        }
-        if (!this.NodeMap.containsKey(dest)) {
-            System.out.println("can't connect vertices!-OP3");
-        }
-        if (getEdge(src, dest) != null) {
-            System.out.println("can't connect vertices!-OP4");
+        if (src == dest || !this.NodeMap.containsKey(src) || !this.NodeMap.containsKey(dest) || getEdge(src, dest) != null) {
+            System.out.println("can't connect vertices!");
+            return;
         }
 
         EdgeData edge = new Edge_Data(src, dest, w);
@@ -71,6 +59,7 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
         Node_Data node = (Node_Data) this.NodeMap.get(src);
         node.updateNeighbors((Node_Data) this.NodeMap.get(dest));
     }
+
 
     @Override
     public Iterator<NodeData> nodeIter() {

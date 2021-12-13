@@ -57,7 +57,34 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
 
     @Override
     public boolean isConnected() {
-        return this.graph.edgeSize() == (this.graph.nodeSize() * (this.graph.nodeSize() - 1));
+        for (int i = 0; i < this.graph.nodeSize(); i++)
+        {
+            // to keep track of whether a vertex is visited or not
+            boolean[] visited = new boolean[this.graph.nodeSize()];
+
+            // start DFS from the first vertex
+            DFS(this.graph.getNodeMap(), i, visited);
+
+            // If DFS traversal doesn't visit all vertices,
+            // then the graph is not strongly connected
+            for (boolean b: visited)
+            {
+                if (!b) {
+                    return false;
+                }
+            }
+        }
+        return true;
+//        return this.graph.edgeSize() == (this.graph.nodeSize() * (this.graph.nodeSize() - 1));
+    }
+
+    private static void DFS(HashMap<Integer, NodeData> graph, int v, boolean[] visited) {
+        visited[v] = true;
+        for (NodeData u : ((Node_Data) graph.get(v)).getNeighborsList()) {
+            if (!visited[u.getKey()]) {
+                DFS(graph, u.getKey(), visited);
+            }
+        }
     }
 
     /**
@@ -304,7 +331,6 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
             return false;
         }
     }
-
 
     @Override
     public boolean load(String file) {

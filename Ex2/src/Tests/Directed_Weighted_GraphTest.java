@@ -137,7 +137,6 @@ class Directed_Weighted_GraphTest {
 
     }
 
-
     @Test
     void connect() {
 

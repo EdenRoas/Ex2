@@ -1,5 +1,5 @@
+import GUI.GUI_runner;
 import api.*;
-import org.json.simple.JSONObject;
 //import com.google.gson.JsonParser;
 //import org.json.simple.JSONArray;
 //import org.json.simple.JSONObject;
@@ -7,13 +7,6 @@ import org.json.simple.JSONObject;
 //import java.io.FileReader;
 //import java.io.IOException;
 //import java.util.HashMap;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Iterator;
-import javax.swing.*;
 
 import static java.lang.Integer.parseInt;
 
@@ -81,7 +74,19 @@ public class Ex2 {
 //        Object ob = jsonpars.parse(new FileReader(file));
 //        JSONObject file_g = (JSONObject) ob;
 //        String file =
-        runGUI("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1.json");
+        //runGUI(args[0]);
+        runGUI("C:\\Users\\hadar\\IdeaProjects\\Ex2\\data\\G1.json");
+//        HashMap<String, EdgeData> map = new LinkedHashMap<>();
+//        String str1 = "0, 4", str2 = "1, 0", str3 = "2, 1";
+//        EdgeData e1 = new Edge_Data(0, 4, 22), e2 = new Edge_Data(1, 0, 31),
+//                e3 = new Edge_Data(2, 1, 8);
+//        map.put(str1, e1);
+//        map.put(str2, e2);
+//        map.put(str3, e3);
+//        for (EdgeData e: map.values())
+//        {
+//            System.out.println(e.getSrc() +" "+e.getWeight()+" "+e.getDest());
+//        }
     }
 }
 
