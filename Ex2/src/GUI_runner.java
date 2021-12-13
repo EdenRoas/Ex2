@@ -333,7 +333,7 @@ public class GUI_runner{
 //                graph_panel.setLayout(null);
                 graph_panel.removeAll();
 
-                JLabel centerLable = new JLabel(String.valueOf(algGraph.center().getKey()));
+                JLabel centerLable = new JLabel(String.valueOf(algGraph.center()));
                 centerLable.setBounds(200, 200, 100, 45);
                 graph_panel.add(centerLable);
                 frame.setVisible(true);

@@ -82,10 +82,6 @@ public class Ex2 {
 //        JSONObject file_g = (JSONObject) ob;
 //        String file =
         runGUI("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1.json");
-//        runGUI("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G2.json");
-        runGUI("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G3.json");
-
-
     }
 }
 
