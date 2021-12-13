@@ -1,9 +1,6 @@
 package api;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Directed_Weighted_Graph implements DirectedWeightedGraph {
     private HashMap<Integer, NodeData> NodeMap;
@@ -11,17 +8,15 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
     private HashMap<String, EdgeData> EdgeMap;
 
     public Directed_Weighted_Graph() {
-        this.EdgeMap = new HashMap<>();
-        this.NodeMap = new HashMap<>();
+        this.EdgeMap = new LinkedHashMap<>();
+        this.NodeMap = new LinkedHashMap<>();
     }
 
-    public HashMap<Integer, NodeData> getNodeMap()
-    {
+    public HashMap<Integer, NodeData> getNodeMap() {
         return this.NodeMap;
     }
 
-    public HashMap<String, EdgeData> getEdgeMap()
-    {
+    public HashMap<String, EdgeData> getEdgeMap() {
         return this.EdgeMap;
     }
 
@@ -52,10 +47,23 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
 
     @Override
     public void connect(int src, int dest, double w) {
-        if (src == dest || !this.NodeMap.containsKey(src) || !this.NodeMap.containsKey(dest) || getEdge(src, dest) != null) {
-            System.out.println("can't connect vertices!");
-            return;
+//        if (src == dest || !this.NodeMap.containsKey(src) || !this.NodeMap.containsKey(dest) || getEdge(src, dest) != null) {
+//            System.out.println("can't connect vertices!");
+//            return;
+        // }
+        if (src == dest) {
+            System.out.println("can't connect vertices!-OP1");
         }
+        if (!this.NodeMap.containsKey(src)) {
+            System.out.println("can't connect vertices!-OP2");
+        }
+        if (!this.NodeMap.containsKey(dest)) {
+            System.out.println("can't connect vertices!-OP3");
+        }
+        if (getEdge(src, dest) != null) {
+            System.out.println("can't connect vertices!-OP4");
+        }
+
         EdgeData edge = new Edge_Data(src, dest, w);
         String kodkod = src + ", " + dest;
         EdgeMap.put(kodkod, edge);
@@ -68,10 +76,10 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
     public Iterator<NodeData> nodeIter() {
         int m = this.MC;
         Iterator<NodeData> iter_node = NodeMap.values().iterator();
-        if(m != MC) {
-                    System.out.println("the Graph has been changed!");
-                    throw new RuntimeException();
-                }
+        if (m != MC) {
+            System.out.println("the Graph has been changed!");
+            throw new RuntimeException();
+        }
 
         return iter_node;
     }
@@ -80,12 +88,33 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
     public Iterator<EdgeData> edgeIter() {
         int m = this.MC;
         Iterator<EdgeData> iter_edges = this.EdgeMap.values().iterator();
-        if (m != MC) {
-            System.out.println("the Graph has been changed!");
-            throw new RuntimeException();
-        }
-        return iter_edges;
+        Iterator<EdgeData> edgeiter = new Iterator<EdgeData>() {
+            EdgeData edge;
 
+            @Override
+            public boolean hasNext() {
+                return iter_edges.hasNext();
+            }
+
+            @Override
+            public EdgeData next() {
+                if (m != MC) {
+                    //Exception e = new RuntimeException();
+                    System.out.println("the Graph has been changed!");
+                    throw new RuntimeException();
+                } else {
+                    edge = iter_edges.next();
+                    return edge;
+                }
+                //throw  new RuntimeException();;
+            }
+        };
+//        if (m != MC) {
+//            System.out.println("the Graph has been changed!");
+//            throw new RuntimeException();
+//        }
+//        return iter_edges;
+        return edgeiter;
     }
 
     @Override
@@ -105,8 +134,9 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
         }
         return iter_edge;
     }
+
     @Override
-    public NodeData removeNode(int key){
+    public NodeData removeNode(int key) {
         if (!this.NodeMap.containsKey(key))
             return null;
         //if(! this.NodeMap.values().isEmpty()){
@@ -125,7 +155,7 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
     }
 
     @Override
-    public EdgeData removeEdge(int src, int dest){
+    public EdgeData removeEdge(int src, int dest) {
         String kodkod = src + ", " + dest;
         if (!EdgeMap.containsKey(kodkod))
             return null;
@@ -146,6 +176,20 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
     @Override
     public int getMC() {
         return this.MC;
+    }
+
+    @Override
+    public String toString() {
+        String str = "Directed_Weighted_Graph-> " +
+                "NodeMap=";
+        for (NodeData n: this.NodeMap.values()){
+            str = str + "id: " + n.getKey() + "\n";
+        }
+        str = str + ", MC=" + MC + ", EdgeMap=";
+        for (EdgeData e: this.EdgeMap.values()){
+            str = str + e.getInfo() + "\n";
+        }
+        return str;
     }
 }
 

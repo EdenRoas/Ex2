@@ -81,7 +81,7 @@ public class Ex2 {
 //        Object ob = jsonpars.parse(new FileReader(file));
 //        JSONObject file_g = (JSONObject) ob;
 //        String file =
-        runGUI("C:\\Users\\hadar\\IdeaProjects\\Ex2\\data\\G1.json");
+        runGUI("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1.json");
     }
 }
 

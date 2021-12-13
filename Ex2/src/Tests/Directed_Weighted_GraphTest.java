@@ -188,15 +188,10 @@ class Directed_Weighted_GraphTest {
         g1.connect(n3.getKey(), n4.getKey(), we3);
         g1.connect(n4.getKey(), n5.getKey(), we4);
         g1.connect(n5.getKey(), n1.getKey(), we5);
-        EdgeData [] arr = new EdgeData[g1.edgeSize()];
+        EdgeData [] arr = {e1, e2, e3, e4, e5};
         Iterator<EdgeData> edgeIter = g1.edgeIter();
         int index = 0;
-        while(edgeIter.hasNext())
-        {
-            arr[index] = edgeIter.next();
-        }
-        index = 0;
-        while(edgeIter.hasNext()) {
+        while (edgeIter.hasNext()) {
             EdgeData etmp = edgeIter.next();
             assertEquals(arr[index++].getInfo(), etmp.getInfo());
         }

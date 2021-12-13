@@ -59,21 +59,39 @@ class Directed_Weighted_Graph_AlgorithmsTest {
 
     @Test
     void copy() {
-        DirectedWeightedGraphAlgorithms gl=new Directed_Weighted_Graph_Algorithms();
-        gl.init(grpah);
+        grpah.addNode(n1);
+        grpah.addNode(n2);
+        grpah.addNode(n3);
+        grpah.addNode(n4);
+        grpah.addNode(n5);
+        grpah.addNode(n6);
+        grpah.connect(n1.getKey(), n2.getKey(), we1);
+        grpah.connect(n2.getKey(), n1.getKey(), we5);
+        grpah.connect(n2.getKey(), n3.getKey(), we2);
+        grpah.connect(n3.getKey(), n2.getKey(), we6);
+        grpah.connect(n3.getKey(), n4.getKey(), we3);
+        grpah.connect(n4.getKey(), n3.getKey(), we7);
+        grpah.connect(n4.getKey(), n5.getKey(), we4);
+        grpah.connect(n5.getKey(), n4.getKey(), we8);
+        grpah.connect(n1.getKey(), n5.getKey(), we9);
         DirectedWeightedGraph g1= gl.copy();
         assertTrue(grpah.nodeSize()==g1.nodeSize());
+        System.out.println(g1.nodeSize());
         assertTrue(grpah.edgeSize()==g1.edgeSize());
         assertTrue(grpah.getMC() == g1.getMC());
         Iterator<EdgeData> graphIter = grpah.edgeIter();
         Iterator<EdgeData> g1Iter = g1.edgeIter();
         Iterator<NodeData> graph_Iter = grpah.nodeIter();
         Iterator<NodeData> g1_Iter = g1.nodeIter();
-        while (g1Iter.hasNext() || g1_Iter.hasNext())
+        while (g1_Iter.hasNext() )
         {
-            assertSame(g1Iter.next(), graphIter.next());
-            assertSame(g1_Iter.next(), graph_Iter.next());
-
+            NodeData nodecopy = g1_Iter.next();
+            String strC = nodecopy.getInfo();
+           // System.out.println(g1_Iter.next().getInfo());
+            NodeData nodeoriginal = graph_Iter.next();
+            String strO = nodeoriginal.getInfo();
+          //System.out.println(graph_Iter.next().getInfo());
+            assertTrue(strC.equals(strO));
         }
     }
 
@@ -241,36 +259,36 @@ class Directed_Weighted_Graph_AlgorithmsTest {
 
     @Test
     void save() {
-        DirectedWeightedGraph fG = new Directed_Weighted_Graph();
-        DirectedWeightedGraph tG = new Directed_Weighted_Graph();
-        DirectedWeightedGraphAlgorithms dwa = new Directed_Weighted_Graph_Algorithms();
-        DirectedWeightedGraphAlgorithms tdwa = new Directed_Weighted_Graph_Algorithms();
-        dwa.init(fG);
-        tdwa.init(tG);
-        dwa.load("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1.json");
-        //DirectedWeightedGraph loadedGraphBeforeSave = dwa.copy();
-        dwa.save("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1Copy.json");
-        tdwa.load("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1Copy.json");
+        DirectedWeightedGraph t1 = new Directed_Weighted_Graph();
+        DirectedWeightedGraph ct1 = new Directed_Weighted_Graph();
+        DirectedWeightedGraphAlgorithms at1 = new Directed_Weighted_Graph_Algorithms();
+        DirectedWeightedGraphAlgorithms act1 = new Directed_Weighted_Graph_Algorithms();
+        at1.init(t1);
+        act1.init(ct1);
+        at1.load("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1.json");
+        DirectedWeightedGraph loadedGraphBeforeSave = at1.copy();
+        at1.save("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1_Copy.json");
+        act1.load("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1_Copy.json");
 
-//        //DirectedWeightedGraph loadedGraphAfterSave = tdwa.copy();
-//        Iterator<EdgeData> graphIter = dwa.getGraph().edgeIter();
-//        Iterator<EdgeData> g1Iter = tdwa.getGraph().edgeIter();
-//        Iterator<NodeData> graph_Iter = dwa.getGraph().nodeIter();
-//        Iterator<NodeData> g1_Iter = tdwa.getGraph().nodeIter();
+        DirectedWeightedGraph loadedGraphAfterSave = act1.copy();
+        Iterator<EdgeData> graphIter = at1.getGraph().edgeIter();
+        Iterator<EdgeData> g1Iter = act1.getGraph().edgeIter();
+        Iterator<NodeData> graph_Iter = at1.getGraph().nodeIter();
+        Iterator<NodeData> g1_Iter = act1.getGraph().nodeIter();
 //        while (g1Iter.hasNext() || g1_Iter.hasNext())
 //        {
 //            assertSame(g1Iter.next(), graphIter.next());
 //            assertSame(g1_Iter.next(), graph_Iter.next());
 //
 //        }
-//        assertEquals(loadedGraphAfterSave, loadedGraphBeforeSave);
+       assertEquals(loadedGraphAfterSave.toString(), loadedGraphBeforeSave.toString());
     }
 
     @Test
     void load() {
         gl.init(grpah);
         assertEquals(true,gl.load("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1.json"));
-        //assertEquals(false,gl.load("C:\\Users\\edenr\\Downloads\\OOP_2021-main (2)\\OOP_2021-main\\Assignments\\Ex2\\data\\G1.json"));
 
     }
+
 }

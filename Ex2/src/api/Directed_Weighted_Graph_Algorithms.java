@@ -1,9 +1,12 @@
 package api;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonWriter;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -29,17 +32,6 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
 
     @Override
     public void init(DirectedWeightedGraph g) {
-//        Directed_Weighted_Graph copy_graph = new Directed_Weighted_Graph();
-//        //Directed_Weighted_Graph g = this.graph;
-//        HashMap<Integer, NodeData> new_node_map = this.graph.getNodeMap();
-//        HashMap<String, EdgeData> new_edge_map = this.graph.getEdgeMap();
-//        for (NodeData n : new_node_map.values()) {
-//            NodeData temp = new Node_Data(n.getKey(), n.getLocation(), n.getWeight(), n.getInfo(), n.getTag());
-//            this.graph.addNode(temp);
-//        }
-//        for (EdgeData edge : new_edge_map.values()) {
-//            this.graph.connect(edge.getSrc(), edge.getDest(), edge.getWeight());
-//        }
         this.graph = (Directed_Weighted_Graph) g;
     }
 
@@ -51,7 +43,6 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
     @Override
     public DirectedWeightedGraph copy() {
         DirectedWeightedGraph copy_graph = new Directed_Weighted_Graph();
-        //Directed_Weighted_Graph g = this.graph;
         HashMap<Integer, NodeData> new_node_map = this.graph.getNodeMap();
         HashMap<String, EdgeData> new_edge_map = this.graph.getEdgeMap();
         for (NodeData n : new_node_map.values()) {
@@ -98,26 +89,6 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
                 }
             }
         }
-//        for (NodeData n : this.graph.getNodeMap().values()) {
-//            dist[n.getKey()] = Integer.MAX_VALUE;
-//            prev[n.getKey()] = null;
-//            setNodes.put(n.getKey(), (Node_Data) n);
-//        }
-//        dist[src.getKey()] = 0;
-//        while (!setNodes.isEmpty()) {
-//            int minDist = minimumDist(dist);
-//            tmpNode = setNodes.get(minDist);
-//            setNodes.remove(tmpNode);
-//            for (Node_Data neighbor : tmpNode.getNeighborsList()) {
-//                String kodkod = tmpNode.getKey() + ", " + neighbor.getKey();
-//                double alt = dist[tmpNode.getKey()] + this.graph.getEdgeMap().get(kodkod).getWeight();
-//                if (alt < dist[neighbor.getKey()]) {
-//                    dist[neighbor.getKey()] = alt;
-//                    prev[neighbor.getKey()] = tmpNode;
-//                }
-//            }
-//        }
-//        distAllNodes[src.getKey()][dest.getKey()] = dist[dest.getKey()];
     }
 
     private double minimumDist(double dist[], Boolean sptSet[])
@@ -132,15 +103,6 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
             }
         return min_index;
     }
-
-//    private int minimumDist(double[] dist) {
-//        int minDist = Integer.MAX_VALUE;
-//        for (int i = 0; i < dist.length; i++) {
-//            if (dist[i] < minDist)
-//                minDist = i;
-//        }
-//        return minDist;
-//    }
 
     @Override
     public double shortestPathDist(int src, int dest) {
@@ -303,51 +265,46 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
 
     @Override
     public boolean save(String file) {
-        JSONArray edges = new JSONArray();
-        JSONObject edgeO = new JSONObject();
-        for(EdgeData edge : this.graph.getEdgeMap().values())
-        {
-            edgeO.put("src", edge.getSrc());
-            edgeO.put("w", edge.getWeight());
-            edgeO.put("dest", edge.getDest());
-            edges.add(edgeO);
-        }
-        JSONArray nodes = new JSONArray();
-        JSONObject nodeO = new JSONObject();
-        for(NodeData node : this.graph.getNodeMap().values())
-        {
-            String str = node.getLocation().x() + "," + node.getLocation().y() + "," + node.getLocation().z();
-            nodeO.put("pos", str);
-            nodeO.put("id", node.getKey());
-            nodes.add(nodeO);
-        }
-        JSONObject graphObj = new JSONObject();
-        graphObj.put("Edges", edges);
-        graphObj.put("Nodes", nodes);
         try {
-            FileWriter writer = new FileWriter(file);
-            writer.write(graphObj.toJSONString());
-            writer.flush();
+            String path = file;
+            JsonWriter writer = new JsonWriter(new FileWriter(path));
+            writer.beginObject();
+            writer.name("Edges");
+            writer.beginArray();
+            Iterator<EdgeData> edges = this.graph.edgeIter();
+            while(edges.hasNext()){
+                Edge_Data edge = (Edge_Data) edges.next();
+                writer.beginObject();
+                writer.name("src").value(edge.getSrc());
+                writer.name("w").value(edge.getWeight());
+                writer.name("dest").value(edge.getDest());
+                writer.endObject();
+            }
+            writer.endArray();
+            writer.name("Nodes");
+            writer.beginArray();
+            Iterator<NodeData> nodes = this.graph.nodeIter();
+            while(nodes.hasNext()){
+                Node_Data node = (Node_Data) nodes.next();
+                writer.beginObject();
+                writer.name("pos").value(node.getLocation().x()+","+node.getLocation().y()+","+node.getLocation().z());
+                writer.name("id").value(node.getKey());
+                writer.endObject();
+            }
+            writer.endArray();
+            writer.endObject();
+            writer.close();
+           // Type collectionType = new TypeToken< HashMap<String, ArrayList<HashMap<String, String>>>>(){}.getType();
             return true;
         }
-        catch(IOException e)
-        {
-            e.printStackTrace();
+        catch (FileNotFoundException e){
             return false;
         }
-//        try {
-//            JSONObject file_g = new JSONObject();
-//            file_g.put("Edges", this.graph.getEdgeMap());
-//            file_g.put("Nodes", this.graph.getNodeMap());
-//            FileWriter writer = new FileWriter(file);
-//            writer.write(file_g.toJSONString());
-//            writer.flush();
-//            return true;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
+        catch (IOException e) {
+            return false;
+        }
     }
+
 
     @Override
     public boolean load(String file) {
@@ -370,9 +327,10 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
             for (Object o : ed) {
                 HashMap<String, Object> edgedata = (HashMap<String, Object>) o;
                 int src = (int) (long) edgedata.get("src");
+
                 double w = (double) edgedata.get("w");
                 int dest = (int) (long) edgedata.get("dest");
-                dg.connect(src, dest, w);
+                dg.connect(src,dest, w);
             }
             this.init(dg);
             return true;
