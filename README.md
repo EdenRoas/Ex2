@@ -49,7 +49,7 @@ here are the classes of this data structure:
 + The class that contains the whole algorithms that can be used on a graph.
      + **graph:** the graph that the algorithms being used on. 
 
-# putting UML here ??
+![image](https://user-images.githubusercontent.com/92533182/145768109-4e0bff58-b817-4ef4-8a83-1eecc66e04a6.png)
 
 ## The algorithems we used:
 in order to calculate the shortest path between two given edges on the graph, we used dijkstra's algorithm.
