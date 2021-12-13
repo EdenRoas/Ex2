@@ -57,7 +57,27 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
 
     @Override
     public boolean isConnected() {
-        return this.graph.edgeSize() == (this.graph.nodeSize() * (this.graph.nodeSize() - 1));
+        for (int i = 0; i < this.graph.nodeSize(); i++)
+        {
+            boolean[] visited = new boolean[this.graph.nodeSize()];
+            DFS(this.graph.getNodeMap(), i, visited);
+            for (boolean b: visited)
+            {
+                if (!b) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static void DFS(HashMap<Integer, NodeData> graph, int v, boolean[] visited) {
+        visited[v] = true;
+        for (NodeData u : ((Node_Data) graph.get(v)).getNeighborsList()) {
+            if (!visited[u.getKey()]) {
+                DFS(graph, u.getKey(), visited);
+            }
+        }
     }
 
     /**
@@ -93,7 +113,6 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
 
     private double minimumDist(double dist[], Boolean sptSet[])
     {
-        // Initialize min value
         double min = Integer.MAX_VALUE, min_index = -1;
 
         for (int v = 0; v < this.graph.nodeSize(); v++)
@@ -220,7 +239,6 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
                 min = centers_array[i];
         }
         return this.graph.getNode(min);
-//        return this.graph.getCenter();
     }
 
     @Override
@@ -294,7 +312,6 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
             writer.endArray();
             writer.endObject();
             writer.close();
-           // Type collectionType = new TypeToken< HashMap<String, ArrayList<HashMap<String, String>>>>(){}.getType();
             return true;
         }
         catch (FileNotFoundException e){

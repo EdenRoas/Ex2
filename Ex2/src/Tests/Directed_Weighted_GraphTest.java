@@ -71,9 +71,30 @@ class Directed_Weighted_GraphTest {
 
     @Test
     void getEdgeMap() {
-        HashMap <Integer,NodeData> edge1 = new HashMap<>();
-        HashMap <Integer,NodeData> edge2 = new HashMap<>();
-        HashMap <Integer,NodeData> edge3 = new HashMap<>();
+        HashMap <String,EdgeData> edge1 = new HashMap<>();
+        String STR1=e1.getSrc()+", "+e1.getDest();
+        String STR2=e2.getSrc()+", "+e1.getDest();
+        String STR3=e3.getSrc()+", "+e1.getDest();
+        String STR4=e4.getSrc()+", "+e1.getDest();
+        String STR5=e5.getSrc()+", "+e1.getDest();
+        edge1.put(STR1, e1);
+        edge1.put(STR2, e2);
+        edge1.put(STR3, e3);
+        edge1.put(STR4, e4);
+        edge1.put(STR5, e5);
+        g3.addNode(n1);
+        g3.addNode(n2);
+        g3.addNode(n3);
+        g3.addNode(n4);
+        g3.addNode(n5);
+        g3.connect(n1.getKey(), n2.getKey(), we1);
+        g3.connect(n2.getKey(), n3.getKey(), we2);
+        g3.connect(n3.getKey(), n4.getKey(), we3);
+        g3.connect(n4.getKey(), n5.getKey(), we4);
+        g3.connect(n5.getKey(), n1.getKey(), we5);
+        assertEquals(edge1.size(), g3.getEdgeMap().size());
+
+
 
     }
 
@@ -140,7 +161,6 @@ class Directed_Weighted_GraphTest {
 
     @Test
     void connect() {
-
         g1.addNode(n1);
         g1.addNode(n2);
         g1.addNode(n3);
@@ -156,7 +176,7 @@ class Directed_Weighted_GraphTest {
         assertEquals( 8,g1.getEdge(n2.getKey(),n3.getKey()).getWeight());
         assertEquals(5,g1.edgeSize());
         assertEquals(0,g2.edgeSize());
-        assertNull(g2.getEdge(n5.getKey(), n5.getKey()));
+       // assertNull(g2.getEdge(n5.getKey(), n5.getKey()));
     }
 
     @Test
