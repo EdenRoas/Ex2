@@ -104,7 +104,6 @@ class Directed_Weighted_GraphTest {
         assertEquals(e4.getInfo(), g1.getEdge(dest1, dest2).getInfo());
         g1.connect(n5.getKey(),n1.getKey(),we5);
         assertEquals(e5.getInfo(),g1.getEdge(dest2, src1).getInfo());
-        //g2.connect(n5.getKey(), n5.getKey(), we6);
 
     }
 
@@ -176,7 +175,7 @@ class Directed_Weighted_GraphTest {
     }
 
     @Test
-    void edgeIter() { //
+    void edgeIter() { 
         g1.addNode(n1);
         g1.addNode(n2);
         g1.addNode(n3);
