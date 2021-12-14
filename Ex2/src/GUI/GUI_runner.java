@@ -335,7 +335,6 @@ public class GUI_runner {
                 frame.setVisible(true);
             }
         });
-//        Add_edge.addActionListener(this);
 
         JMenuItem Remove_edge = new JMenuItem("Remove edge");
         Remove_edge.addActionListener(new ActionListener() {
@@ -502,7 +501,7 @@ public class GUI_runner {
                         graph_panel.repaint();
                     }
                 });
-                graph_panel.repaint();
+                //graph_panel.repaint();
                 frame.setVisible(true);
             }
         });
@@ -596,7 +595,6 @@ public class GUI_runner {
 
     private class Clicklistener implements ActionListener
     {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getActionCommand().equals("Done")) {

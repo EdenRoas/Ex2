@@ -61,9 +61,7 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
         for (int i = 0; i < this.graph.nodeSize(); i++)
         {
             boolean[] visited = new boolean[this.graph.nodeSize()];
-
             DFS(this.graph.getNodeMap(), i, visited);
-
             for (boolean b: visited)
             {
                 if (!b) {
@@ -116,11 +114,10 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
 
     private double minimumDist(double dist[], Boolean sptSet[])
     {
-        // Initialize min value
         double min = Integer.MAX_VALUE, min_index = -1;
 
         for (int v = 0; v < this.graph.nodeSize(); v++)
-            if (sptSet[v] == false && dist[v] <= min) {
+            if (!sptSet[v] && dist[v] <= min) {
                 min = dist[v];
                 min_index = v;
             }
@@ -218,7 +215,6 @@ public class Directed_Weighted_Graph_Algorithms implements DirectedWeightedGraph
      */
     @Override
     public NodeData center() {
-
         FWA();
         double[] eccentricity = new double[this.graph.nodeSize()];
         double rad = Integer.MAX_VALUE;

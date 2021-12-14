@@ -120,7 +120,6 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
     public NodeData removeNode(int key) {
         if (!this.NodeMap.containsKey(key))
             return null;
-        //if(! this.NodeMap.values().isEmpty()){
         for (NodeData n : this.NodeMap.values()) {
             if (n.getKey() == key)
                 continue;

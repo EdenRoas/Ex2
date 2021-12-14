@@ -268,7 +268,7 @@ class Directed_Weighted_Graph_AlgorithmsTest {
         act1.load("C:\\Users\\hadar\\IdeaProjects\\Ex2\\data\\G1_Copy.json");
 
         DirectedWeightedGraph loadedGraphAfterSave = act1.copy();
-       assertEquals(loadedGraphAfterSave.toString(), loadedGraphBeforeSave.toString());
+        assertEquals(loadedGraphAfterSave.toString(), loadedGraphBeforeSave.toString());
     }
 
     @Test

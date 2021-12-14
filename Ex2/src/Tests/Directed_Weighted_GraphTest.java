@@ -175,7 +175,7 @@ class Directed_Weighted_GraphTest {
     }
 
     @Test
-    void edgeIter() { 
+    void edgeIter() {
         g1.addNode(n1);
         g1.addNode(n2);
         g1.addNode(n3);
