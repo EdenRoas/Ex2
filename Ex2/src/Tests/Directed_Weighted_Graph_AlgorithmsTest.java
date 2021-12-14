@@ -87,10 +87,8 @@ class Directed_Weighted_Graph_AlgorithmsTest {
         {
             NodeData nodecopy = g1_Iter.next();
             String strC = nodecopy.getInfo();
-           // System.out.println(g1_Iter.next().getInfo());
             NodeData nodeoriginal = graph_Iter.next();
             String strO = nodeoriginal.getInfo();
-          //System.out.println(graph_Iter.next().getInfo());
             assertTrue(strC.equals(strO));
         }
     }
