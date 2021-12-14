@@ -73,16 +73,16 @@ here are the classes of this data structure:
 
 ## Tests
 **1000 nodes-**
-is connected - true
-center - 362
+  + is connected - true
+  + center - 362
 
 **10000 nodes-**
-is connected - true
-center -
+  + is connected - true
+  + center -
 
 **100000 nodes-**
-is connected - true
-center - 
+  + is connected - true
+  + center - 
 
 ## About
  we used swing for the GUI and build three classes that got used for the GUI: 
