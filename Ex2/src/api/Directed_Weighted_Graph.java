@@ -87,7 +87,6 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
             @Override
             public EdgeData next() {
                 if (m != MC) {
-                    //Exception e = new RuntimeException();
                     System.out.println("the Graph has been changed!");
                     throw new RuntimeException();
                 } else {
