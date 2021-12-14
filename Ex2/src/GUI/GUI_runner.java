@@ -4,20 +4,22 @@ import api.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 import static java.lang.Integer.parseInt;
 
 public class GUI_runner{
 
-    Directed_Weighted_Graph graph;
+    public static Directed_Weighted_Graph graph;
     JFrame frame;
     JPanel graph_panel;
-    private int kRADIUS = 5;
-    private int mWin_h = 500;
-    private int mWin_w = 500;
-    private Image mBuffer_image;
-    private Graphics mBuffer_graphics;
+//    private int kRADIUS = 5;
+//    private int mWin_h = 500;
+//    private int mWin_w = 500;
+//    private Image mBuffer_image;
+//    private Graphics mBuffer_graphics;
 //    frame.setSize(500, 500);
 //    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //
@@ -27,10 +29,10 @@ public class GUI_runner{
 //    graph_panel.setLayout(null);
     public GUI_runner(DirectedWeightedGraphAlgorithms algGraph, String json_file)
     {
-        this.graph = (Directed_Weighted_Graph) algGraph.getGraph();
+        graph = (Directed_Weighted_Graph) algGraph.getGraph();
         this.frame = new JFrame("Graph");
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = dimension.height, width = dimension.width;
+        int height = (int) (dimension.height), width = (int) (dimension.width*0.75);
         this.frame.setSize(width, height);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -67,6 +69,7 @@ public class GUI_runner{
                     unsucLable.setBounds(200, 200, 100, 45);
                     graph_panel.add(unsucLable);
                 }
+                graph_panel.repaint();
                 frame.setVisible(true);
             }
         });
@@ -106,6 +109,7 @@ public class GUI_runner{
                 graph_panel.removeAll();
                 GraphPanel graph_draw = new GraphPanel(graph);
                 frame.add(graph_draw);
+                //graph_draw.setVisible(true);
                 frame.setVisible(true);
               //  DirectedWeightedGraph graph = getGrapg(json_file);
                 // GUI_Graph_Draw(graph);
@@ -179,11 +183,13 @@ public class GUI_runner{
                         NodeData new_node = new Node_Data(parseInt(keyText.getText()),
                                 new Geo_Location(Double.parseDouble(XText.getText()), Double.parseDouble(YText.getText()), Double.parseDouble(ZText.getText())),
                                 Double.parseDouble(weightText.getText()));
-                        algGraph.getGraph().addNode(new_node);
+                        graph.addNode(new_node);
+                        GraphPanel graph_draw = new GraphPanel(graph);
+                        frame.add(graph_draw);
                     }
                 });
                 graph_panel.add(addButton);
-
+                graph_panel.repaint();
                 frame.setVisible(true);
             }
         });
@@ -215,11 +221,13 @@ public class GUI_runner{
                 removeButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        algGraph.getGraph().removeNode(parseInt(keyText.getText()));
+                        graph.removeNode(parseInt(keyText.getText()));
+                        GraphPanel graph_draw = new GraphPanel(graph);
+                        frame.add(graph_draw);
                     }
                 });
                 graph_panel.add(removeButton);
-
+                graph_panel.repaint();
                 frame.setVisible(true);
             }
         });
@@ -267,13 +275,15 @@ public class GUI_runner{
                 addButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        algGraph.getGraph().connect(parseInt(srcText.getText()),
+                        graph.connect(parseInt(srcText.getText()),
                                 parseInt(destText.getText()),
                                 Double.parseDouble(weightText.getText()));
+                        GraphPanel graph_draw = new GraphPanel(graph);
+                        frame.add(graph_draw);
                     }
                 });
                 graph_panel.add(addButton);
-
+                graph_panel.repaint();
                 frame.setVisible(true);
             }
         });
@@ -312,12 +322,14 @@ public class GUI_runner{
                 removeButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        algGraph.getGraph().removeEdge(parseInt(srcText.getText()),
+                        graph.removeEdge(parseInt(srcText.getText()),
                                 parseInt(destText.getText()));
+                        GraphPanel graph_draw = new GraphPanel(graph);
+                        frame.add(graph_draw);
                     }
                 });
                 graph_panel.add(removeButton);
-
+                graph_panel.repaint();
                 frame.setVisible(true);
             }
         });
@@ -337,7 +349,7 @@ public class GUI_runner{
                 centerLable.setBounds(200, 200, 100, 45);
                 centerLable.setVisible(true);
                 graph_panel.add(centerLable);
-
+                graph_panel.repaint();
                 frame.setVisible(true);
             }
         });
@@ -352,7 +364,7 @@ public class GUI_runner{
                 graph_panel.removeAll();
 
                 JLabel addLable = new JLabel("Check Path Between Two Vertices");
-                addLable.setBounds(100, 10, 100, 45);
+                addLable.setBounds(50, 10, 200, 45);
                 graph_panel.add(addLable);
 
                 JLabel srcLable = new JLabel("src:");
@@ -382,6 +394,7 @@ public class GUI_runner{
                     }
                 });
                 graph_panel.add(checkButton);
+                graph_panel.repaint();
                 frame.setVisible(true);
             }
         });
@@ -396,7 +409,7 @@ public class GUI_runner{
                 graph_panel.removeAll();
 
                 JLabel addLable = new JLabel("Check Path Between Two Vertices");
-                addLable.setBounds(100, 10, 100, 45);
+                addLable.setBounds(50, 10, 200, 45);
                 graph_panel.add(addLable);
 
                 JLabel srcLable = new JLabel("src:");
@@ -420,12 +433,16 @@ public class GUI_runner{
                 checkButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        JLabel pathLable = new JLabel(String.valueOf(algGraph.shortestPathDist(parseInt(srcText.getText()), parseInt(destText.getText()))));
-                        pathLable.setBounds(200, 200, 100, 45);
-                        graph_panel.add(pathLable);
+//                        JLabel pathLable = new JLabel(String.valueOf(algGraph.shortestPathDist(parseInt(srcText.getText()), parseInt(destText.getText()))));
+//                        pathLable.setBounds(200, 200, 100, 45);
+//                        graph_panel.add(pathLable);
+                        List<NodeData> path =  algGraph.shortestPath(parseInt(srcText.getText()), parseInt(destText.getText()));
+                        PathPanel graph_draw = new PathPanel(graph, (ArrayList<Node_Data>) path);
+                        frame.add(graph_draw);
                     }
                 });
                 graph_panel.add(checkButton);
+                graph_panel.repaint();
                 frame.setVisible(true);
             }
         });
@@ -442,6 +459,7 @@ public class GUI_runner{
                 JLabel algLable = new JLabel(String.valueOf(algGraph.isConnected()));
                 algLable.setBounds(200, 200, 100, 45);
                 graph_panel.add(algLable);
+                graph_panel.repaint();
                 frame.setVisible(true);
 
             }
@@ -457,7 +475,7 @@ public class GUI_runner{
                 graph_panel.removeAll();
 
                 JLabel addLable = new JLabel("Check Path Between Two Vertices");
-                addLable.setBounds(100, 10, 100, 45);
+                addLable.setBounds(100, 10, 200, 45);
                 graph_panel.add(addLable);
 
                 JLabel srcLable = new JLabel("src:");
@@ -487,6 +505,7 @@ public class GUI_runner{
                     }
                 });
                 graph_panel.add(checkButton);
+                graph_panel.repaint();
                 frame.setVisible(true);
             }
         });
