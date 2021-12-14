@@ -99,17 +99,5 @@ public class PathPanel extends JPanel {
                     (int) (srcY * 0.5 + destY * 0.5) + 4);
             this.repaint();
         }
-//        for(EdgeData e: edge_List.values())
-//        {
-//            int srcX = (int) nodes_List.get(e.getSrc()).getLocation().x(),
-//                    srcY = (int) nodes_List.get(e.getSrc()).getLocation().y(),
-//                    destX = (int) nodes_List.get(e.getDest()).getLocation().x(),
-//                    destY = (int) nodes_List.get(e.getDest()).getLocation().y();
-//            gr.setColor(Color.BLACK);
-//            gr.drawLine(srcX, srcY, destX, destY);
-//            gr.drawString(String.valueOf(e.getWeight()), (int) (srcX * 0.5 + destX * 0.5),
-//                    (int) (srcY * 0.5 + destY * 0.5));
-//            this.repaint();
-//        }
     }
 }

@@ -25,18 +25,6 @@ public class GUI_runner {
     List<NodeData> path;
     boolean flagTSP;
 
-    //    private int kRADIUS = 5;
-//    private int mWin_h = 500;
-//    private int mWin_w = 500;
-//    private Image mBuffer_image;
-//    private Graphics mBuffer_graphics;
-//    frame.setSize(500, 500);
-//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//    JPanel graph_panel = new JPanel();
-//    graph_panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-//    frame.add(graph_panel);
-//    graph_panel.setLayout(null);
     public GUI_runner(DirectedWeightedGraphAlgorithms algGraph, String json_file) {
         this.json_file = json_file;
         this.algGraph = algGraph;
@@ -55,7 +43,6 @@ public class GUI_runner {
 
         JMenu Charge = new JMenu("Charge");
         JMenuItem charge = new JMenuItem("charge");
-//        charge.addActionListener(this);
         charge.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -122,7 +109,6 @@ public class GUI_runner {
 
         JMenu Draw = new JMenu("Draw");
         JMenuItem draw = new JMenuItem("draw");
-//        draw.addActionListener(this);
         draw.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -143,7 +129,6 @@ public class GUI_runner {
 
         JMenu Change = new JMenu("Change");
         JMenuItem Add_vertice = new JMenuItem("Add vertice");
-//        Add_vertice.addActionListener(this);
         Add_vertice.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -281,7 +266,6 @@ public class GUI_runner {
                 frame.setVisible(true);
             }
         });
-//        Remove_vertice.addActionListener(this);
 
         JMenuItem Add_edge = new JMenuItem("Add edge");
         Add_edge.addActionListener(new ActionListener() {
@@ -411,33 +395,23 @@ public class GUI_runner {
                 frame.setVisible(true);
             }
         });
-//        Remove_edge.addActionListener(this);
 
         JMenu Algorithm = new JMenu("Algorithm");
         JMenuItem center = new JMenuItem("center");
-//        center.addActionListener(this);
         center.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                JPanel graph_panel = new JPanel();
-//                graph_panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-//                frame.add(graph_panel);
-//                graph_panel.setLayout(null);
                 graph_panel.removeAll();
                 if(!(graph_draw == null))
                     frame.remove(graph_draw);
                 if(!(path_draw == null))
                     frame.remove(path_draw);
-                JLabel centerLable = new JLabel(String.valueOf(algGraph.center().getKey()));
-                centerLable.setBounds(200, 200, 100, 45);
-                centerLable.setVisible(true);
-                graph_panel.add(centerLable);
+                JOptionPane.showMessageDialog(frame, String.valueOf(algGraph.center().getKey()));
                 graph_panel.repaint();
                 frame.setVisible(true);
             }
         });
         JMenuItem shortestPathDist = new JMenuItem("shortest Path Dist");
-//        shortestPathDist.addActionListener(this);
         shortestPathDist.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -475,9 +449,10 @@ public class GUI_runner {
                 checkButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        JLabel distLable = new JLabel(String.valueOf(algGraph.shortestPathDist(parseInt(srcText.getText()), parseInt(destText.getText()))));
-                        distLable.setBounds(200, 200, 100, 45);
-                        graph_panel.add(distLable);
+                        JOptionPane.showMessageDialog(frame, String.valueOf(algGraph.shortestPathDist(parseInt(srcText.getText()), parseInt(destText.getText()))));
+//                        JLabel distLable = new JLabel(String.valueOf(algGraph.shortestPathDist(parseInt(srcText.getText()), parseInt(destText.getText()))));
+//                        distLable.setBounds(200, 200, 100, 45);
+//                        graph_panel.add(distLable);
                     }
                 });
                 graph_panel.add(checkButton);
@@ -486,14 +461,9 @@ public class GUI_runner {
             }
         });
         JMenuItem shortestPath = new JMenuItem("shortest path");
-//        shortestPath.addActionListener(this);
         shortestPath.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                JPanel graph_panel = new JPanel();
-//                graph_panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-//                frame.add(graph_panel);
-//                graph_panel.setLayout(null);
                 graph_panel.removeAll();
                 if(!(graph_draw == null))
                     frame.remove(graph_draw);
@@ -525,9 +495,6 @@ public class GUI_runner {
                 checkButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-//                        JLabel pathLable = new JLabel(String.valueOf(algGraph.shortestPathDist(parseInt(srcText.getText()), parseInt(destText.getText()))));
-//                        pathLable.setBounds(200, 200, 100, 45);
-//                        graph_panel.add(pathLable)
                         frame.remove(graph_panel);
                         path = algGraph.shortestPath(parseInt(srcText.getText()), parseInt(destText.getText()));
                         path_draw = new PathPanel(graph, (ArrayList<NodeData>) path);
@@ -540,36 +507,23 @@ public class GUI_runner {
             }
         });
         JMenuItem isConnected = new JMenuItem("is connected?");
-//        isConnected.addActionListener(this);
         isConnected.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                JPanel graph_panel = new JPanel();
-//                graph_panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-//                frame.add(graph_panel);
-//                graph_panel.setLayout(null);
                 graph_panel.removeAll();
                 if(!(graph_draw == null))
                     frame.remove(graph_draw);
                 if(!(path_draw == null))
                     frame.remove(path_draw);
-                JLabel algLable = new JLabel(String.valueOf(algGraph.isConnected()));
-                algLable.setBounds(200, 200, 100, 45);
-                graph_panel.add(algLable);
+                JOptionPane.showMessageDialog(frame, String.valueOf(algGraph.isConnected()));
                 graph_panel.repaint();
                 frame.setVisible(true);
-
             }
         });
         JMenuItem tsp = new JMenuItem("tsp");
-//        tsp.addActionListener(this);
         tsp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                JPanel graph_panel = new JPanel();
-//                graph_panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-//                frame.add(graph_panel);
-//                graph_panel.setLayout(null);
                 graph_panel.removeAll();
                 if(graph_draw != null)
                     frame.remove(graph_draw);
@@ -581,34 +535,7 @@ public class GUI_runner {
                     JLabel tspLable = new JLabel("Add vertices to the list");
                     tspLable.setBounds(100, 10, 200, 45);
                     graph_panel.add(tspLable);
-
-//            JLabel keyLable = new JLabel("id:");
-//            keyLable.setBounds(30, 40, 100, 45);
-//            graph_panel.add(keyLable);
-//
-//            JTextField keyText = new JTextField();
-//            keyText.setBounds(80, 50, 165, 25);
-//            graph_panel.add(keyText);
-//
-//            JButton addNodeToTSPButton = new JButton("Add");
-//            addNodeToTSPButton.setBounds(30, 80, 80, 25);
-//            addNodeToTSPButton.addActionListener(this);
-//            addNodeToTSPButton.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    NodeData new_node = new Node_Data(parseInt(keyText.getText()),
-//                            new Geo_Location(Double.parseDouble(XText.getText()), Double.parseDouble(YText.getText()), Double.parseDouble(ZText.getText())),
-//                            Double.parseDouble(weightText.getText()));
-//                    graph.addNode(new_node);
-//                    GraphPanel graph_draw = new GraphPanel(graph);
-//                    frame.add(graph_draw);
-//                }
-//            });
-
-//            JButton doneButton = new JButton("Done");
-//            doneButton.setBounds(200, 80, 80, 25);
                     List<NodeData> tsp_list = new ArrayList<>();
-//                while (!e.getActionCommand().equals("doneButton")){
                     JLabel keyLable = new JLabel("id:");
                     keyLable.setBounds(30, 40, 100, 45);
                     graph_panel.add(keyLable);
@@ -634,17 +561,6 @@ public class GUI_runner {
                         path.add(new_node);
                     }
                 }
-//
-//                if (e.getActionCommand().equals("doneButton")) {
-//                    List<NodeData> path = algGraph.tsp(tsp_list);
-//                    path_draw = new PathPanel(graph, (ArrayList<NodeData>) path);
-//                    frame.add(path_draw);
-//                }
-
-
-
-//            graph_panel.add(addNodeToTSPButton);
-//            graph_panel.add(doneButton);
                 List<NodeData> path_list = algGraph.tsp(path);
                 graph_panel.removeAll();
                 path_draw = new PathPanel(graph, (ArrayList<NodeData>) path_list);
@@ -652,22 +568,7 @@ public class GUI_runner {
                 graph_panel.repaint();
                 frame.setVisible(true);
             }
-//                checkButton.addActionListener(new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-////                        JLabel pathLable = new JLabel(String.valueOf(algGraph.shortestPathDist(parseInt(srcText.getText()), parseInt(destText.getText()))));
-////                        pathLable.setBounds(200, 200, 100, 45);
-////                        graph_panel.add(pathLable);
-//                        List<NodeData> path =  algGraph.tsp();
-//                        PathPanel shortest_path_draw = new PathPanel(graph, (ArrayList<NodeData>) path);
-//                        frame.add(shortest_path_draw);
-//                    }
-//                });
-//                graph_panel.add(checkButton);
-//                graph_panel.repaint();
-//                frame.setVisible(true);
             });
-
 
         Graph.add(Charge);
         Graph.add(Save);
@@ -708,541 +609,4 @@ public class GUI_runner {
             }
         }
     }
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//        graph_panel.removeAll();
-//        if (e.getActionCommand().equals("charge")) {
-//            //graph_panel.removeAll();
-//            boolean flag = algGraph.load(json_file);
-//            if (flag) {
-//                JLabel sucLable = new JLabel("The graph was success loaded!");
-//                sucLable.setBounds(200, 200, 200, 45);
-//                graph_panel.add(sucLable);
-//            } else {
-//                JLabel unsucLable = new JLabel("The graph was success loaded!");
-//                unsucLable.setBounds(200, 200, 200, 45);
-//                graph_panel.add(unsucLable);
-//            }
-//            graph_panel.repaint();
-//            frame.setVisible(true);
-//        }
-//
-//        if (e.getActionCommand().equals("save")) {
-//            //graph_panel.removeAll();
-//
-//            boolean flag = algGraph.load(json_file);
-//            if (flag) {
-//                JLabel sucLable = new JLabel("The graph was success saved!");
-//                sucLable.setBounds(200, 200, 100, 45);
-//                graph_panel.add(sucLable);
-//            } else {
-//                JLabel unsucLable = new JLabel("The graph was success saved!");
-//                unsucLable.setBounds(200, 200, 100, 45);
-//                graph_panel.add(unsucLable);
-//            }
-//            graph_panel.repaint();
-//            frame.setVisible(true);
-//        }
-//
-//        if (e.getActionCommand().equals("draw")) {
-//            //graph_panel.removeAll();
-//            GraphPanel graph_draw = new GraphPanel(graph);
-//            frame.add(graph_draw);
-//            //graph_draw.setVisible(true);
-//            frame.setVisible(true);
-//            //  DirectedWeightedGraph graph = getGrapg(json_file);
-//            // GUI_Graph_Draw(graph);
-//        }
-//
-//        if (e.getActionCommand().equals("Add vertice")) {
-//            //graph_panel.removeAll();
-//            JLabel addLable = new JLabel("Add new vertice");
-//            addLable.setBounds(100, 10, 100, 45);
-//            graph_panel.add(addLable);
-//
-//            JLabel keyLable = new JLabel("id:");
-//            keyLable.setBounds(30, 40, 100, 45);
-//            graph_panel.add(keyLable);
-//
-//            JTextField keyText = new JTextField();
-//            keyText.setBounds(80, 50, 165, 25);
-//            graph_panel.add(keyText);
-//
-//            JLabel weightLable = new JLabel("weight:");
-//            weightLable.setBounds(30, 70, 100, 45);
-//            graph_panel.add(weightLable);
-//
-//            JTextField weightText = new JTextField();
-//            weightText.setBounds(80, 80, 165, 25);
-//            graph_panel.add(weightText);
-//
-//            JLabel locationLable = new JLabel("location:");
-//            locationLable.setBounds(30, 100, 100, 45);
-//            graph_panel.add(locationLable);
-//
-//            JLabel XLable = new JLabel("X:");
-//            XLable.setBounds(100, 100, 100, 45);
-//            graph_panel.add(XLable);
-//
-//            JTextField XText = new JTextField();
-//            XText.setBounds(120, 110, 165, 25);
-//            graph_panel.add(XText);
-//
-//            JLabel YLable = new JLabel("Y:");
-//            YLable.setBounds(100, 140, 100, 45);
-//            graph_panel.add(YLable);
-//
-//            JTextField YText = new JTextField();
-//            YText.setBounds(120, 150, 165, 25);
-//            graph_panel.add(YText);
-//
-//            JLabel ZLable = new JLabel("Z:");
-//            ZLable.setBounds(100, 180, 100, 45);
-//            graph_panel.add(ZLable);
-//
-//            JTextField ZText = new JTextField();
-//            ZText.setBounds(120, 190, 165, 25);
-//            graph_panel.add(ZText);
-//
-//            JButton addButton = new JButton("Add");
-//            addButton.setBounds(30, 220, 80, 25);
-//            addButton.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    NodeData new_node = new Node_Data(parseInt(keyText.getText()),
-//                            new Geo_Location(Double.parseDouble(XText.getText()), Double.parseDouble(YText.getText()), Double.parseDouble(ZText.getText())),
-//                            Double.parseDouble(weightText.getText()));
-//                    graph.addNode(new_node);
-//                    GraphPanel graph_draw = new GraphPanel(graph);
-//                    frame.add(graph_draw);
-//                }
-//            });
-//            graph_panel.add(addButton);
-//            graph_panel.repaint();
-//            frame.setVisible(true);
-//        }
-//
-//        if (e.getActionCommand().equals("Remove vertice")) {
-//            //graph_panel.removeAll();
-//
-//            JLabel addLable = new JLabel("Remove a vertice");
-//            addLable.setBounds(100, 10, 100, 45);
-//            graph_panel.add(addLable);
-//
-//            JLabel keyLable = new JLabel("id:");
-//            keyLable.setBounds(30, 40, 100, 45);
-//            graph_panel.add(keyLable);
-//
-//            JTextField keyText = new JTextField();
-//            keyText.setBounds(80, 50, 165, 25);
-//            graph_panel.add(keyText);
-//
-//            JButton removeButton = new JButton("Remove");
-//            removeButton.setBounds(30, 80, 100, 25);
-//            removeButton.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    graph.removeNode(parseInt(keyText.getText()));
-//                    GraphPanel graph_draw = new GraphPanel(graph);
-//                    frame.add(graph_draw);
-//                }
-//            });
-//            graph_panel.add(removeButton);
-//            graph_panel.repaint();
-//            frame.setVisible(true);
-//        }
-//
-//        if (e.getActionCommand().equals("Add edge")) {
-//            //graph_panel.removeAll();
-//
-//            JLabel addLable = new JLabel("Add an edge");
-//            addLable.setBounds(100, 10, 100, 45);
-//            graph_panel.add(addLable);
-//
-//            JLabel srcLable = new JLabel("src:");
-//            srcLable.setBounds(30, 40, 100, 45);
-//            graph_panel.add(srcLable);
-//
-//            JTextField srcText = new JTextField();
-//            srcText.setBounds(80, 50, 165, 25);
-//            graph_panel.add(srcText);
-//
-//            JLabel destLable = new JLabel("dest:");
-//            destLable.setBounds(30, 70, 100, 45);
-//            graph_panel.add(destLable);
-//
-//            JTextField destText = new JTextField();
-//            destText.setBounds(80, 80, 165, 25);
-//            graph_panel.add(destText);
-//
-//            JLabel weightLable = new JLabel("weight:");
-//            weightLable.setBounds(30, 100, 100, 45);
-//            graph_panel.add(weightLable);
-//
-//            JTextField weightText = new JTextField();
-//            weightText.setBounds(100, 110, 165, 25);
-//            graph_panel.add(weightText);
-//
-//            JButton addButton = new JButton("Add");
-//            addButton.setBounds(30, 140, 80, 25);
-//            addButton.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    graph.connect(parseInt(srcText.getText()),
-//                            parseInt(destText.getText()),
-//                            Double.parseDouble(weightText.getText()));
-//                    GraphPanel graph_draw = new GraphPanel(graph);
-//                    frame.add(graph_draw);
-//                }
-//            });
-//            graph_panel.add(addButton);
-//            graph_panel.repaint();
-//            frame.setVisible(true);
-//        }
-//
-//        if (e.getActionCommand().equals("Remove edge")) {
-//            //graph_panel.removeAll();
-//            JLabel addLable = new JLabel("Remove an edge");
-//            addLable.setBounds(100, 10, 100, 45);
-//            graph_panel.add(addLable);
-//
-//            JLabel srcLable = new JLabel("src:");
-//            srcLable.setBounds(30, 40, 100, 45);
-//            graph_panel.add(srcLable);
-//
-//            JTextField srcText = new JTextField();
-//            srcText.setBounds(80, 50, 165, 25);
-//            graph_panel.add(srcText);
-//
-//            JLabel destLable = new JLabel("dest:");
-//            destLable.setBounds(30, 70, 100, 45);
-//            graph_panel.add(destLable);
-//
-//            JTextField destText = new JTextField();
-//            destText.setBounds(80, 80, 165, 25);
-//            graph_panel.add(destText);
-//
-//            JButton removeButton = new JButton("Remove");
-//            removeButton.setBounds(30, 140, 100, 25);
-//            removeButton.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    graph.removeEdge(parseInt(srcText.getText()),
-//                            parseInt(destText.getText()));
-//                    GraphPanel graph_draw = new GraphPanel(graph);
-//                    frame.add(graph_draw);
-//                }
-//            });
-//            graph_panel.add(removeButton);
-//            graph_panel.repaint();
-//            frame.setVisible(true);
-//        }
-//
-//        if (e.getActionCommand().equals("center")) {
-//            //graph_panel.removeAll();
-//
-//            JLabel centerLable = new JLabel(String.valueOf(algGraph.center().getKey()));
-//            centerLable.setBounds(200, 200, 100, 45);
-//            centerLable.setVisible(true);
-//            graph_panel.add(centerLable);
-//            graph_panel.repaint();
-//            frame.setVisible(true);
-//        }
-//
-//        if (e.getActionCommand().equals("shortest Path Dist")) {
-//            //graph_panel.removeAll();
-//            JLabel addLable = new JLabel("Check Path Between Two Vertices");
-//            addLable.setBounds(50, 10, 200, 45);
-//            graph_panel.add(addLable);
-//
-//            JLabel srcLable = new JLabel("src:");
-//            srcLable.setBounds(30, 40, 100, 45);
-//            graph_panel.add(srcLable);
-//
-//            JTextField srcText = new JTextField();
-//            srcText.setBounds(80, 50, 165, 25);
-//            graph_panel.add(srcText);
-//
-//            JLabel destLable = new JLabel("dest:");
-//            destLable.setBounds(30, 70, 100, 45);
-//            graph_panel.add(destLable);
-//
-//            JTextField destText = new JTextField();
-//            destText.setBounds(80, 80, 165, 25);
-//            graph_panel.add(destText);
-//
-//            JButton checkButton = new JButton("Check");
-//            checkButton.setBounds(30, 140, 80, 25);
-//            checkButton.addActionListener(this);
-////            checkButton.addActionListener(new ActionListener() {
-////                @Override
-////                public void actionPerformed(ActionEvent e) {
-////                    JLabel distLable = new JLabel(String.valueOf(algGraph.shortestPathDist(parseInt(srcText.getText()), parseInt(destText.getText()))));
-////                    distLable.setBounds(200, 200, 100, 45);
-////                    graph_panel.add(distLable);
-////                }
-////            });
-//            graph_panel.add(checkButton);
-//            graph_panel.repaint();
-//            frame.setVisible(true);
-//        }
-//
-//        if (e.getActionCommand().equals("Check"))
-//        {
-//            JLabel distLable = new JLabel(String.valueOf(algGraph.shortestPathDist(parseInt(srcText.getText()), parseInt(destText.getText()))));
-//            distLable.setBounds(200, 200, 100, 45);
-//            graph_panel.add(distLable);
-//        }
-//
-//        if (e.getActionCommand().equals("shortest path")) {
-//            //graph_panel.removeAll();
-//
-//            JLabel addLable = new JLabel("Check Path Between Two Vertices");
-//            addLable.setBounds(50, 10, 200, 45);
-//            graph_panel.add(addLable);
-//
-//            JLabel srcLable = new JLabel("src:");
-//            srcLable.setBounds(30, 40, 100, 45);
-//            graph_panel.add(srcLable);
-//
-//            JTextField srcText = new JTextField();
-//            srcText.setBounds(80, 50, 165, 25);
-//            graph_panel.add(srcText);
-//
-//            JLabel destLable = new JLabel("dest:");
-//            destLable.setBounds(30, 70, 100, 45);
-//            graph_panel.add(destLable);
-//
-//            JTextField destText = new JTextField();
-//            destText.setBounds(80, 80, 165, 25);
-//            graph_panel.add(destText);
-//
-//            JButton checkButton = new JButton("Check");
-//            checkButton.setBounds(30, 140, 80, 25);
-//            checkButton.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    List<NodeData> path = algGraph.shortestPath(parseInt(srcText.getText()), parseInt(destText.getText()));
-//                    PathPanel shortest_path_draw = new PathPanel(graph, (ArrayList<NodeData>) path);
-//                    frame.add(shortest_path_draw);
-//                }
-//            });
-//            graph_panel.add(checkButton);
-//            graph_panel.repaint();
-//            frame.setVisible(true);
-//        }
-//
-//        if (e.getActionCommand().equals("is connected?")) {
-//            //graph_panel.removeAll();
-//
-//            JLabel algLable = new JLabel(String.valueOf(algGraph.isConnected()));
-//            algLable.setBounds(200, 200, 100, 45);
-//            algLable.setVisible(true);
-//            graph_panel.add(algLable);
-//            graph_panel.repaint();
-//            frame.setVisible(true);
-//        }
-//
-//        if (e.getActionCommand().equals("tsp")) {
-//            //graph_panel.removeAll();
-//
-//            JLabel tspLable = new JLabel("Add vertices to the list");
-//            tspLable.setBounds(100, 10, 200, 45);
-//            graph_panel.add(tspLable);
-//
-////            JLabel keyLable = new JLabel("id:");
-////            keyLable.setBounds(30, 40, 100, 45);
-////            graph_panel.add(keyLable);
-////
-////            JTextField keyText = new JTextField();
-////            keyText.setBounds(80, 50, 165, 25);
-////            graph_panel.add(keyText);
-////
-////            JButton addNodeToTSPButton = new JButton("Add");
-////            addNodeToTSPButton.setBounds(30, 80, 80, 25);
-////            addNodeToTSPButton.addActionListener(this);
-////            addNodeToTSPButton.addActionListener(new ActionListener() {
-////                @Override
-////                public void actionPerformed(ActionEvent e) {
-////                    NodeData new_node = new Node_Data(parseInt(keyText.getText()),
-////                            new Geo_Location(Double.parseDouble(XText.getText()), Double.parseDouble(YText.getText()), Double.parseDouble(ZText.getText())),
-////                            Double.parseDouble(weightText.getText()));
-////                    graph.addNode(new_node);
-////                    GraphPanel graph_draw = new GraphPanel(graph);
-////                    frame.add(graph_draw);
-////                }
-////            });
-//
-////            JButton doneButton = new JButton("Done");
-////            doneButton.setBounds(200, 80, 80, 25);
-//
-//            List<NodeData> tsp_list = new ArrayList<>();
-//            while (!e.getActionCommand().equals("doneButton")){
-//                JLabel keyLable = new JLabel("id:");
-//                keyLable.setBounds(30, 40, 100, 45);
-//                graph_panel.add(keyLable);
-//
-//                JTextField keyText = new JTextField();
-//                keyText.setBounds(80, 50, 165, 25);
-//                graph_panel.add(keyText);
-//
-//                JButton addNodeToTSPButton = new JButton("Add");
-//                addNodeToTSPButton.setBounds(30, 80, 80, 25);
-//                addNodeToTSPButton.addActionListener(this);
-//
-//                JButton doneButton = new JButton("Done");
-//                doneButton.setBounds(200, 80, 80, 25);
-//
-//                graph_panel.add(addNodeToTSPButton);
-//                graph_panel.add(doneButton);
-//                NodeData new_node = graph.getNode(parseInt(keyText.getText()));
-//                tsp_list.add(new_node);
-//            }
-//
-//            if (e.getActionCommand().equals("doneButton")) {
-//                List<NodeData> path = algGraph.tsp(tsp_list);
-//                PathPanel shortest_path_draw = new PathPanel(graph, (ArrayList<NodeData>) path);
-//                frame.add(shortest_path_draw);
-//            }
-//
-////            graph_panel.add(addNodeToTSPButton);
-////            graph_panel.add(doneButton);
-//            graph_panel.repaint();
-//            frame.setVisible(true);
-//        }
-//    }
 }
-
-
-//     private class GUI_Graph_Draw extends JPanel{
-//
-//        public void paint(Graphics graphics)
-//        {
-//
-//        }
-//
-//        @Override
-//         public void paintComponents(Graphics graphics)
-//         {
-//
-//         }
-//    }
-
-
-//    public static void main(String[] args) {
-//        DirectedWeightedGraph graph = new Directed_Weighted_Graph();
-//        double x1 = 35.18869800968523, x2 = 35.187594216303474, x3 = 35.19381366747377, x4=23.2457754356 ,x5=22.5688766787,
-//                y1 = 32.104927164705884, y2 = 32.10378225882353, y3 = 32.102419275630254, y4=30.0 , y5=32.55553,
-//                z = 0.0 , w1 = 0.6, w2 = 9.7, w3 = 0.3, w4=10.2, w5=12.3;
-//        GeoLocation loc1 = new Geo_Location(x1,y1,0);
-//        GeoLocation loc2 = new Geo_Location(x2,y2,0);
-//        GeoLocation loc3 = new Geo_Location(x3,y3,0);
-//        GeoLocation loc4 = new Geo_Location(x4,y4,0);
-//        GeoLocation loc5 = new Geo_Location(x5,y5,0);
-//        String inf1 = "35.18869800968523,32.104927164705884,0.0";
-//        String inf2 = "32.104927164705884,32.10378225882353,0.0";
-//        String inf3 = "35.19381366747377,32.102419275630254,0.0";
-//        String inf4 = "23.2457754356,30.0,0.0";
-//        String inf5 = "22.5688766787,32.55553,0.0";
-//        int ta1 = Node_Data.WHITE, ta2 = Node_Data.GRAY, ta3 = Node_Data.BLACK;
-//        int src1 = 0, src2 = 1, src3 = 2, dest1 = 3, dest2 = 4, dest3 = 15;
-//        NodeData n1 = new Node_Data(src1, loc1, w1,inf1, ta1);
-//        NodeData n2 = new Node_Data(src2,loc2, w2, inf2, ta2);
-//        NodeData n3 = new Node_Data(src3,loc3, w3, inf3, ta3);
-//        NodeData n4 = new Node_Data(dest1, loc4, w4,inf4, ta1);
-//        NodeData n5 = new Node_Data(dest2, loc5, w5,inf5, ta2);
-//        double we1=4 , we2=8, we3=11, we4=12 ,we5=22 , we6=31;
-//        Edge_Data e1= new Edge_Data(n1.getKey(),n2.getKey(),we1);
-//        Edge_Data e2= new Edge_Data(n2.getKey(),n3.getKey(),we2);
-//        Edge_Data e3= new Edge_Data(n3.getKey(),n4.getKey(),we3);
-//        Edge_Data e4= new Edge_Data(n4.getKey(),n5.getKey(),we4);
-//        Edge_Data e5= new Edge_Data(n5.getKey(),n1.getKey(),we5);
-//        Edge_Data e6= new Edge_Data(n5.getKey(),n5.getKey(),we6);
-//        graph.addNode(n1);
-//        graph.addNode(n2);
-//
-//
-//
-//        GUI_Graph_Draw gui = new GUI_Graph_Draw();
-//        gui.GUI_Graph(graph);
-//        JFrame frame = new JFrame();
-//        frame.setSize(500, 500);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//        JPanel gPanel = new JPanel();
-//        gPanel.setSize(150, 150);
-//
-////        frame.add(gPanel);
-//        frame.add(gui);
-//        frame.setVisible(true);
-//    }
-//public static void runGUI(String json_file) {
-//    DirectedWeightedGraphAlgorithms.java alg = getGrapgAlgo(json_file);
-//    JFrame frame = new JFrame("Graph");
-//    frame.setSize(500, 500);
-//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//    JPanel graph_panel = new JPanel();
-//    graph_panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-//    frame.add(graph_panel);
-//    graph_panel.setLayout(null);
-//
-//    JMenuBar Graph = new JMenuBar();
-//    frame.setJMenuBar(Graph);
-//
-//    JMenu Charge = new JMenu("Charge");
-//    JMenuItem charge = new JMenuItem("charge");
-//    charge.addActionListener(new ActionListener() {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-////                alg.load(json_file);
-////                JPanel graph_panel = new JPanel();
-////                graph_panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-////                frame.add(graph_panel);
-////                graph_panel.setLayout(null);
-//            graph_panel.removeAll();
-//
-//            boolean flag = alg.load(json_file);
-//            if (flag)
-//            {
-//                JLabel sucLable = new JLabel("The graph was success loaded!");
-//                sucLable.setBounds(200, 200, 100, 45);
-//                graph_panel.add(sucLable);
-//            }
-//            else
-//            {
-//                JLabel unsucLable = new JLabel("The graph was success loaded!");
-//                unsucLable.setBounds(200, 200, 100, 45);
-//                graph_panel.add(unsucLable);
-//            }
-//            frame.setVisible(true);
-//        }
-//    });
-//    Charge.add(charge);
-//
-//    JMenu Save = new JMenu("Save");
-//    JMenuItem save = new JMenuItem("save");
-//    save.addActionListener(new ActionListener() {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-////                JPanel graph_panel = new JPanel();
-////                graph_panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-////                frame.add(graph_panel);
-////                graph_panel.setLayout(null);
-//            graph_panel.removeAll();
-//
-//            boolean flag = alg.load(json_file);
-//            if (flag) {
-//                JLabel sucLable = new JLabel("The graph was success saved!");
-//                sucLable.setBounds(200, 200, 100, 45);
-//                graph_panel.add(sucLable);
-//            } else {
-//                JLabel unsucLable = new JLabel("The graph was success saved!");
-//                unsucLable.setBounds(200, 200, 100, 45);
-//                graph_panel.add(unsucLable);
-//            }
-//            frame.setVisible(true);
-//        }
-//    });
-//    Save.add(save);
-//

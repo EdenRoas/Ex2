@@ -69,7 +69,6 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
             System.out.println("the Graph has been changed!");
             throw new RuntimeException();
         }
-
         return iter_node;
     }
 
