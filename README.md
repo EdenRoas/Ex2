@@ -52,15 +52,32 @@ here are the classes of this data structure:
 ![image](https://user-images.githubusercontent.com/92533182/145768109-4e0bff58-b817-4ef4-8a83-1eecc66e04a6.png)
 
 ## The algorithems we used:
-in order to calculate the shortest path between two given edges on the graph, we used dijkstra's algorithm.
-for info about this specific algorithm please visit: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm.
-in order to calculate the center in the graph, we used Floyd–Warshall algorithm.
-for info about this algorithem please visit: https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm.
--in this assignment we also asked to build a GUI were we could load graphs using a JSON file.
++ in order to calculate the shortest path between two given edges on the graph, we used dijkstra's algorithm.
+  for info about this specific algorithm please visit: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm.
++ in order to calculate the center in the graph, we used Floyd–Warshall algorithm.
+  for info about this algorithem please visit: https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm.
++ in order to find if the graph is strongly connected  we used DFS algorithem.
+  for info about this specific algorithm please visit: https://en.wikipedia.org/wiki/Depth-first_search
+  
+  ***in this assignment we also asked to build a GUI were we could load graphs using a JSON file.***
 
-## putting pictuer of the GUI here
+# GUI
+### G1.json
 
+![G1](https://user-images.githubusercontent.com/92533182/146030677-c54ef26d-b1eb-4374-ade6-fa93d922ef33.png)
+##### Center - 8
+##### isConnected - true
+##### ShortestPathDist(5,16) - 8.335654448747263
 
+## About
+ we used swing for the GUI and build three classes that got used for the GUI: 
+   + **GraphPanel-** the class is used to draw a graph.
+   + **PathPanel**- the class is used to draw the shortest path between two vertices and the path for the Tsp.
+   + **GUI_runnner** - this class creat a frame that runs all the function needed and in general runs all the gui.
+## How to run
+  + in the folder "Ex2/out/artifacts/Ex2_Jar" there is a jar file
+  + open the terminal and type the command : java -jar Ex2.jar (optinal-)"a file name.json"
+  
 ### Collaborators
   + **HADAR BITAN**
   + **EDEN ROAS**
