@@ -94,14 +94,8 @@ public class Directed_Weighted_Graph implements DirectedWeightedGraph {
                     edge = iter_edges.next();
                     return edge;
                 }
-                //throw  new RuntimeException();;
             }
         };
-//        if (m != MC) {
-//            System.out.println("the Graph has been changed!");
-//            throw new RuntimeException();
-//        }
-//        return iter_edges;
         return edgeiter;
     }
 
