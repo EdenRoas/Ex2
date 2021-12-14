@@ -59,6 +59,8 @@ here are the classes of this data structure:
 + in order to find if the graph is strongly connected  we used DFS algorithem.
   for info about this specific algorithm please visit: https://en.wikipedia.org/wiki/Depth-first_search
   
+ 
+  
   ***in this assignment we also asked to build a GUI were we could load graphs using a JSON file.***
 
 # GUI
@@ -69,6 +71,19 @@ here are the classes of this data structure:
 ##### isConnected - true
 ##### ShortestPathDist(5,16) - 8.335654448747263
 
+## Tests
+**1000 nodes-**
+is connected - true
+center - 362
+
+**10000 nodes-**
+is connected - true
+center -
+
+**100000 nodes-**
+is connected - true
+center - 
+
 ## About
  we used swing for the GUI and build three classes that got used for the GUI: 
    + **GraphPanel-** the class is used to draw a graph.
@@ -77,7 +92,7 @@ here are the classes of this data structure:
 ## How to run
   + in the folder "Ex2/out/artifacts/Ex2_Jar" there is a jar file
   + open the terminal and type the command : java -jar Ex2.jar (optinal-)"a file name.json"
-  
+
 ### Collaborators
   + **HADAR BITAN**
   + **EDEN ROAS**
